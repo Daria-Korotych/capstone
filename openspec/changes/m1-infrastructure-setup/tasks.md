@@ -33,7 +33,7 @@
 - [x] 6.1 Написати `scripts/verify-network.sh` з 11 перевірками з `design.md` (зокрема `MapPublicIpOnLaunch=false` у private, відсутність NAT Gateway, префікс тегу `Name`); перевірка: до деплою `FAIL stack exists`, exit 1
 - [x] 6.2 Написати `infra/network.yaml`; перевірка: `cfn-lint` і `aws cloudformation validate-template` без помилок
 - [x] 6.3 Написати `scripts/deploy-network.sh` і задеплоїти `kv-network`; перевірка: `verify-network.sh` 11×PASS, вивід у `docs/evidence/network/`
-- [ ] 6.4 [оператор + скрипт] Після нової сесії запустити `scripts/sandbox-facts.sh`; перевірка: записано `kv-network present` або `absent`, при `absent` README оновлено
+- [x] 6.4 [оператор + скрипт] Після нової сесії запустити `scripts/sandbox-facts.sh`; перевірка: записано `kv-network present` або `absent`, при `absent` README оновлено
 
 ## 7. Схема мережі (network, R4)
 

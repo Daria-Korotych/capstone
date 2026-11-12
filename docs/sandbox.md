@@ -34,3 +34,28 @@ AWS Academy creates a CloudFormation stack `c229528a5781610l18353535t1w804122474
   - us-west-2: allowed
 - Persistence: kv-network absent
 - Evidence: docs/evidence/sandbox/2026-11-12T172542Z.txt
+
+## Run 2026-11-12T20:25:23Z
+
+- Role: voclabs
+- Account: 295765808087
+- Regions:
+  - ap-northeast-1: denied (UnauthorizedOperation)
+  - ap-northeast-2: denied (UnauthorizedOperation)
+  - ap-northeast-3: denied (UnauthorizedOperation)
+  - ap-south-1: denied (UnauthorizedOperation)
+  - ap-southeast-1: denied (UnauthorizedOperation)
+  - ap-southeast-2: denied (UnauthorizedOperation)
+  - ca-central-1: denied (UnauthorizedOperation)
+  - eu-central-1: denied (UnauthorizedOperation)
+  - eu-north-1: denied (UnauthorizedOperation)
+  - eu-west-1: denied (UnauthorizedOperation)
+  - eu-west-2: denied (UnauthorizedOperation)
+  - eu-west-3: denied (UnauthorizedOperation)
+  - sa-east-1: denied (UnauthorizedOperation)
+  - us-east-1: allowed
+  - us-east-2: denied (UnauthorizedOperation)
+  - us-west-1: denied (UnauthorizedOperation)
+  - us-west-2: allowed
+- Persistence: kv-network absent
+- Evidence: docs/evidence/sandbox/2026-11-12T202523Z.txt

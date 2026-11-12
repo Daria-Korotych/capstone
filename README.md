@@ -9,7 +9,7 @@ A light DynamoDB-like key-value store capstone for Cloud Architectures 2026/27. 
 3. Python virtualenv with the template tools: `python3 -m venv .venv && .venv/bin/pip install cfn-lint cfn-flip`. Run it in the repository root; the scripts call `.venv/bin/cfn-lint` and `.venv/bin/cfn-flip` directly.
 4. Region is `us-east-1`, set in `scripts/env.sh`; the scripts need no other configuration.
 
-A sandbox session lasts 3 hours. If the stack is gone at the start of a session, re-run the deploy below (whether stacks survive between sessions is still being checked).
+A sandbox session lasts 3 hours, and project resources do not survive the end of a session: after End Lab and a new Start Lab, `kv-network` was gone (`docs/sandbox.md`, run 2026-11-12T20:25:23Z). Run the deploy below at the start of every session.
 
 ## Bring it up
 
