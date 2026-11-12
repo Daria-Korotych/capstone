@@ -1,0 +1,4 @@
+$ aws iam create-group --group-name kv-probe-group
+
+aws: [ERROR]: An error occurred (AccessDenied) when calling the CreateGroup operation: User: arn:aws:sts::804122474090:assumed-role/voclabs/<session> is not authorized to perform: iam:CreateGroup on resource: arn:aws:iam::804122474090:group/kv-probe-group because no identity-based policy allows the iam:CreateGroup action. Go to https://us-east-1.console.aws.amazon.com/iam/home?region=us-east-1#/authorization-details/axkda53hr9ypjn7eslx815vp2 for complete details, or call the GetRequestAuthorizationDetails API with the following authorization id: axkda53hr9ypjn7eslx815vp2
+[exit 254]

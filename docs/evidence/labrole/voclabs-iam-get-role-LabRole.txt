@@ -1,0 +1,4 @@
+$ aws iam get-role --role-name LabRole
+
+aws: [ERROR]: An error occurred (NoSuchEntity) when calling the GetRole operation: The role with name LabRole cannot be found.
+[exit 254]

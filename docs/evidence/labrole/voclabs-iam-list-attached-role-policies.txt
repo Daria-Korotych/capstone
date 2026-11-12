@@ -1,0 +1,9 @@
+$ aws iam list-attached-role-policies --role-name voclabs
+{
+    "AttachedPolicies": [
+        {
+            "PolicyName": "ReadOnlyAccess",
+            "PolicyArn": "arn:aws:iam::aws:policy/ReadOnlyAccess"
+        }
+    ]
+}

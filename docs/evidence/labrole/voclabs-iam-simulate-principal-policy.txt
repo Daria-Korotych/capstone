@@ -1,0 +1,6 @@
+$ aws iam simulate-principal-policy --policy-source-arn arn:aws:iam::804122474090:role/voclabs --action-names ec2:RunInstances ec2:CreateVpc iam:CreateRole s3:CreateBucket cloudformation:CreateStack --query EvaluationResults[].[EvalActionName,EvalDecision] --output text
+ec2:RunInstances	allowed
+ec2:CreateVpc	allowed
+iam:CreateRole	implicitDeny
+s3:CreateBucket	allowed
+cloudformation:CreateStack	allowed

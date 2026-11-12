@@ -1,0 +1,4 @@
+$ aws iam create-role --role-name kv-probe-role --assume-role-policy-document {"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"ec2.amazonaws.com"},"Action":"sts:AssumeRole"}]}
+
+aws: [ERROR]: An error occurred (AccessDenied) when calling the CreateRole operation: User: arn:aws:sts::804122474090:assumed-role/voclabs/<session> is not authorized to perform: iam:CreateRole on resource: arn:aws:iam::804122474090:role/kv-probe-role because no identity-based policy allows the iam:CreateRole action. Go to https://us-east-1.console.aws.amazon.com/iam/home?region=us-east-1#/authorization-details/9gxoyljzgrq1xlqogkwa4rpfr for complete details, or call the GetRequestAuthorizationDetails API with the following authorization id: 9gxoyljzgrq1xlqogkwa4rpfr
+[exit 254]
