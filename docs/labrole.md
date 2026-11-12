@@ -60,3 +60,21 @@
 - `iam:GetRole`: `Access denied to iam:GetRole. User: arn:aws:sts::804122474090:assumed-role/voclabs/<session>. Action: iam:GetRole. Context: an identity-based policy explicitly denies the action.` Збігається з CLI (`voclabs-iam-get-role.txt`).
 - `iam:CreateUser`: `User was not created. User: arn:aws:sts::804122474090:assumed-role/voclabs/<session> is not authorized to perform: iam:CreateUser on resource: arn:aws:iam::804122474090:user/kv-probe-console because no identity-based policy allows the iam:CreateUser action.` Збігається з CLI (`voclabs-iam-create-user.txt`).
 - Policy Simulator: `You don't have enough permissions to use the IAM Policy Simulator.` Консольний симулятор не запустився (ймовірна причина — явна заборона `iam:GetRole`/`iam:GetRolePolicy`, через яку він не може прочитати політики ролі; точну дію консоль не називає), тоді як CLI `simulate-principal-policy` відпрацював. На панелі симулятора для ролі `voclabs` позначено «AWS Organizations SCPs» — акаунт пісочниці входить до організації з SCP, тому результати CLI-симулятора лишаються непідтвердженими до реального виклику.
+
+## Deploying kv-iam
+
+Шаблон `infra/iam.yaml` описує `ReadOnlyPolicy` (керована політика тільки для перегляду) і `ReadOnlyRole` (роль, яку може взяти лише principal із параметра `TrustedPrincipalArn`). Статична й симуляторна перевірка шаблону — `scripts/verify-iam.sh` (усі перевірки `PASS`, вивід у `docs/evidence/iam/verify-*.txt`). Стек `kv-iam` у пісочниці **не задеплоєно**: спроба розгортання впала, стек видалено.
+
+Команда: `aws cloudformation deploy --stack-name kv-iam --template-file infra/iam.yaml --parameter-overrides TrustedPrincipalArn=arn:aws:iam::804122474090:root Owner=korotych --capabilities CAPABILITY_NAMED_IAM`. Події стеку — `docs/evidence/iam/deploy-attempt.json`.
+
+Ресурс `ReadOnlyPolicy` отримав `CREATE_FAILED`, стек відкотився (`ROLLBACK_COMPLETE`). Точний `ResourceStatusReason` (сесійне ім'я замінено на `<session>`):
+
+```
+Resource handler returned message: "User: arn:aws:sts::804122474090:assumed-role/voclabs/<session> is not authorized to perform: iam:CreatePolicy on resource: policy kv-dev-readonly because no identity-based policy allows the iam:CreatePolicy action. Go to https://us-east-1.console.aws.amazon.com/iam/home?region=us-east-1#/authorization-details/8m2vbdu0o4mwyjmuuxisl5k0i for complete details, or call the GetRequestAuthorizationDetails API with the following authorization id: 8m2vbdu0o4mwyjmuuxisl5k0i (Service: Iam, Status Code: 403, Request ID: 6fd6436a-b042-46b6-b3e4-6aac329de61c) (SDK Attempt Count: 1)" (RequestToken: 3139c246-d11a-76b2-c64c-4926ec082498, HandlerErrorCode: AccessDenied)
+```
+
+Причина — обмеження ролі сесії `voclabs`: жодна її ідентифікаційна політика не дає `iam:CreatePolicy` (implicit deny, не explicit). Це збігається з пробами в розділі вище (`iam:CreatePolicy` і `iam:CreateRole` відхилені) і з тим, що створення IAM-ресурсів у цій пісочниці недоступне взагалі. Роль `ReadOnlyRole` до створення не дійшла: CloudFormation спершу створює політику, від якої вона залежить, і впав на ній. Після невдачі виконано `delete-stack` + `wait stack-delete-complete`; стек зі статусом `DELETE_COMPLETE`, ролей і політик з префіксом `kv-` в акаунті немає.
+
+### Що робила б роль у звичайному акаунті
+
+Роль `kv-<env>-readonly` бере будь-який principal, якого названо в `TrustedPrincipalArn` (наприклад, викладач, рецензент або CI-роль): він викликає `sts:AssumeRole` і отримує тимчасові креденшели (ключ, секрет, токен із терміном дії, за замовчуванням одна година). З ними він може лише переглядати мережу й обчислення (`ec2:Describe*`), стеки проєкту (`kv-*`), метадані бакетів `capstone-kv-*` (не вміст об'єктів), показники й аларми CloudWatch та квоти сервісів; запису немає. Роль краща за групу користувачів, бо креденшели тимчасові й самі спливають, тоді як членство в групі дає постійні права, які треба пам'ятати відкликати; кожне взяття ролі видно в CloudTrail як окрему сесію, а доступ дається й забирається зміною одного trust policy без створення користувачів.

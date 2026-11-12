@@ -1,0 +1,79 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: kv access - read-only managed policy and a role that a supplied principal can assume
+
+Parameters:
+  Environment:
+    Type: String
+    Default: dev
+  ApplicationName:
+    Type: String
+    Default: kv
+  Owner:
+    Type: String
+  TrustedPrincipalArn:
+    Type: String
+    AllowedPattern: '^arn:aws:iam::\d{12}:(root|role/.+|user/.+)$'
+    ConstraintDescription: Must be an IAM root, role or user ARN, for example arn:aws:iam::123456789012:root
+
+Resources:
+  ReadOnlyPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: !Sub '${ApplicationName}-${Environment}-readonly'
+      Description: Inspection of network, stacks, bucket metadata, monitoring and quotas. No writes, no object contents.
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          # Project-scoped reads: AWS supports resource-level permissions for these actions.
+          # s3:GetBucket* returns bucket metadata only; s3:GetObject* is deliberately absent.
+          # This ARN also matches object ARNs (capstone-kv-*/key), so only s3:GetBucket* / bucket-level actions may live here.
+          - Sid: BucketMetadataOfProject
+            Effect: Allow
+            Action:
+              - s3:GetBucket*
+            Resource: arn:aws:s3:::capstone-kv-*
+          - Sid: StacksOfProject
+            Effect: Allow
+            Action:
+              - cloudformation:Describe*
+              - cloudformation:Get*
+            Resource: !Sub 'arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/kv-*/*'
+          # Resource "*" is unavoidable here: these List/Describe actions do not support
+          # resource-level permissions (they enumerate resources, so there is no ARN to name),
+          # so a narrower Resource would make them fail. Only List/Describe actions may live in this statement.
+          # A few cloudwatch Describe/List actions support alarm-level scoping; acceptable while the project has no alarms (M1).
+          - Sid: ListAndDescribeWithoutResourceLevelPermissions
+            Effect: Allow
+            Action:
+              - ec2:Describe*
+              - s3:ListAllMyBuckets
+              - cloudformation:ListStacks
+              - cloudwatch:Describe*
+              - cloudwatch:List*
+              - servicequotas:List*
+            Resource: '*'
+
+  ReadOnlyRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub '${ApplicationName}-${Environment}-readonly'
+      Description: Read-only inspection role, assumable only by the principal passed as TrustedPrincipalArn
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !Ref TrustedPrincipalArn
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - !Ref ReadOnlyPolicy
+      Tags:
+        - { Key: Name, Value: !Sub '${ApplicationName}-${Environment}-readonly' }
+        - { Key: Project, Value: capstone-kv }
+        - { Key: Environment, Value: !Ref Environment }
+        - { Key: Milestone, Value: m1 }
+        - { Key: Owner, Value: !Ref Owner }
+
+Outputs:
+  ReadOnlyRoleArn:
+    Value: !GetAtt ReadOnlyRole.Arn
