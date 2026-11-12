@@ -1,0 +1,25 @@
+[2026-11-12T18:37:13Z] START delete
+[2026-11-12T18:37:46Z] END   delete (33s)
+[2026-11-12T18:37:46Z] START tagging-check
+[2026-11-12T18:37:47Z] tagging API empty
+[2026-11-12T18:37:47Z] END   tagging-check (1s)
+[2026-11-12T18:37:47Z] START create
+
+Waiting for changeset to be created..
+Waiting for stack create/update to complete
+Successfully created/updated stack - kv-network
+[2026-11-12T18:38:57Z] END   create (70s)
+[2026-11-12T18:38:57Z] START verify
+PASS stack exists
+PASS vpc cidr
+PASS four subnet cidrs
+PASS azs distinct
+PASS map public ip
+PASS public default route to igw
+PASS private local routes only
+PASS required tags
+PASS exports present
+PASS no nat gateway
+PASS name tags prefix
+[2026-11-12T18:39:12Z] END   verify (15s)
+[2026-11-12T18:39:12Z] TOTAL 119s

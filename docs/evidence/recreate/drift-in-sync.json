@@ -1,0 +1,103 @@
+{
+    "StackResourceDrifts": [
+        {
+            "StackId": "arn:aws:cloudformation:us-east-1:804122474090:stack/kv-network/29de0e40-dec8-11f1-bf67-0ec669663bd7",
+            "LogicalResourceId": "InternetGateway",
+            "PhysicalResourceId": "igw-012235ef4f9ae5acf",
+            "ResourceType": "AWS::EC2::InternetGateway",
+            "ExpectedProperties": "{\"Tags\":[{\"Value\":\"kv-dev-igw\",\"Key\":\"Name\"},{\"Value\":\"capstone-kv\",\"Key\":\"Project\"},{\"Value\":\"dev\",\"Key\":\"Environment\"},{\"Value\":\"m1\",\"Key\":\"Milestone\"},{\"Value\":\"korotych\",\"Key\":\"Owner\"}]}",
+            "ActualProperties": "{\"Tags\":[{\"Key\":\"Name\",\"Value\":\"kv-dev-igw\"},{\"Key\":\"Environment\",\"Value\":\"dev\"},{\"Key\":\"Project\",\"Value\":\"capstone-kv\"},{\"Key\":\"Owner\",\"Value\":\"korotych\"},{\"Key\":\"Milestone\",\"Value\":\"m1\"}]}",
+            "PropertyDifferences": [],
+            "StackResourceDriftStatus": "IN_SYNC",
+            "Timestamp": "2026-11-12T19:20:08.895000+00:00"
+        },
+        {
+            "StackId": "arn:aws:cloudformation:us-east-1:804122474090:stack/kv-network/29de0e40-dec8-11f1-bf67-0ec669663bd7",
+            "LogicalResourceId": "PrivateRouteTable",
+            "PhysicalResourceId": "rtb-02307b23c27ab2307",
+            "ResourceType": "AWS::EC2::RouteTable",
+            "ExpectedProperties": "{\"VpcId\":\"vpc-02d58723133ddaa5b\",\"Tags\":[{\"Value\":\"kv-dev-private-rt\",\"Key\":\"Name\"},{\"Value\":\"capstone-kv\",\"Key\":\"Project\"},{\"Value\":\"dev\",\"Key\":\"Environment\"},{\"Value\":\"m1\",\"Key\":\"Milestone\"},{\"Value\":\"korotych\",\"Key\":\"Owner\"}]}",
+            "ActualProperties": "{\"VpcId\":\"vpc-02d58723133ddaa5b\",\"Tags\":[{\"Key\":\"Environment\",\"Value\":\"dev\"},{\"Key\":\"Name\",\"Value\":\"kv-dev-private-rt\"},{\"Key\":\"Project\",\"Value\":\"capstone-kv\"},{\"Key\":\"Milestone\",\"Value\":\"m1\"},{\"Key\":\"Owner\",\"Value\":\"korotych\"}]}",
+            "PropertyDifferences": [],
+            "StackResourceDriftStatus": "IN_SYNC",
+            "Timestamp": "2026-11-12T19:20:08.869000+00:00"
+        },
+        {
+            "StackId": "arn:aws:cloudformation:us-east-1:804122474090:stack/kv-network/29de0e40-dec8-11f1-bf67-0ec669663bd7",
+            "LogicalResourceId": "PrivateSubnet1",
+            "PhysicalResourceId": "subnet-00f233df7939062a6",
+            "ResourceType": "AWS::EC2::Subnet",
+            "ExpectedProperties": "{\"CidrBlock\":\"10.20.10.0/24\",\"AvailabilityZone\":\"us-east-1a\",\"VpcId\":\"vpc-02d58723133ddaa5b\",\"MapPublicIpOnLaunch\":false,\"Tags\":[{\"Value\":\"kv-dev-private-1\",\"Key\":\"Name\"},{\"Value\":\"capstone-kv\",\"Key\":\"Project\"},{\"Value\":\"dev\",\"Key\":\"Environment\"},{\"Value\":\"m1\",\"Key\":\"Milestone\"},{\"Value\":\"korotych\",\"Key\":\"Owner\"}]}",
+            "ActualProperties": "{\"AvailabilityZone\":\"us-east-1a\",\"CidrBlock\":\"10.20.10.0/24\",\"MapPublicIpOnLaunch\":false,\"VpcId\":\"vpc-02d58723133ddaa5b\",\"Tags\":[{\"Value\":\"korotych\",\"Key\":\"Owner\"},{\"Value\":\"kv-dev-private-1\",\"Key\":\"Name\"},{\"Value\":\"dev\",\"Key\":\"Environment\"},{\"Value\":\"m1\",\"Key\":\"Milestone\"},{\"Value\":\"capstone-kv\",\"Key\":\"Project\"}]}",
+            "PropertyDifferences": [],
+            "StackResourceDriftStatus": "IN_SYNC",
+            "Timestamp": "2026-11-12T19:20:09.304000+00:00"
+        },
+        {
+            "StackId": "arn:aws:cloudformation:us-east-1:804122474090:stack/kv-network/29de0e40-dec8-11f1-bf67-0ec669663bd7",
+            "LogicalResourceId": "PrivateSubnet2",
+            "PhysicalResourceId": "subnet-0db8db74b300edf97",
+            "ResourceType": "AWS::EC2::Subnet",
+            "ExpectedProperties": "{\"CidrBlock\":\"10.20.11.0/24\",\"AvailabilityZone\":\"us-east-1b\",\"VpcId\":\"vpc-02d58723133ddaa5b\",\"MapPublicIpOnLaunch\":false,\"Tags\":[{\"Value\":\"kv-dev-private-2\",\"Key\":\"Name\"},{\"Value\":\"capstone-kv\",\"Key\":\"Project\"},{\"Value\":\"dev\",\"Key\":\"Environment\"},{\"Value\":\"m1\",\"Key\":\"Milestone\"},{\"Value\":\"korotych\",\"Key\":\"Owner\"}]}",
+            "ActualProperties": "{\"AvailabilityZone\":\"us-east-1b\",\"CidrBlock\":\"10.20.11.0/24\",\"MapPublicIpOnLaunch\":false,\"VpcId\":\"vpc-02d58723133ddaa5b\",\"Tags\":[{\"Value\":\"m1\",\"Key\":\"Milestone\"},{\"Value\":\"dev\",\"Key\":\"Environment\"},{\"Value\":\"kv-dev-private-2\",\"Key\":\"Name\"},{\"Value\":\"korotych\",\"Key\":\"Owner\"},{\"Value\":\"capstone-kv\",\"Key\":\"Project\"}]}",
+            "PropertyDifferences": [],
+            "StackResourceDriftStatus": "IN_SYNC",
+            "Timestamp": "2026-11-12T19:20:09.395000+00:00"
+        },
+        {
+            "StackId": "arn:aws:cloudformation:us-east-1:804122474090:stack/kv-network/29de0e40-dec8-11f1-bf67-0ec669663bd7",
+            "LogicalResourceId": "PublicDefaultRoute",
+            "PhysicalResourceId": "rtb-01579972393630704|0.0.0.0/0",
+            "ResourceType": "AWS::EC2::Route",
+            "ExpectedProperties": "{\"RouteTableId\":\"rtb-01579972393630704\",\"DestinationCidrBlock\":\"0.0.0.0/0\",\"GatewayId\":\"igw-012235ef4f9ae5acf\"}",
+            "ActualProperties": "{\"DestinationCidrBlock\":\"0.0.0.0/0\",\"RouteTableId\":\"rtb-01579972393630704\",\"GatewayId\":\"igw-012235ef4f9ae5acf\"}",
+            "PropertyDifferences": [],
+            "StackResourceDriftStatus": "IN_SYNC",
+            "Timestamp": "2026-11-12T19:20:09.733000+00:00"
+        },
+        {
+            "StackId": "arn:aws:cloudformation:us-east-1:804122474090:stack/kv-network/29de0e40-dec8-11f1-bf67-0ec669663bd7",
+            "LogicalResourceId": "PublicRouteTable",
+            "PhysicalResourceId": "rtb-01579972393630704",
+            "ResourceType": "AWS::EC2::RouteTable",
+            "ExpectedProperties": "{\"VpcId\":\"vpc-02d58723133ddaa5b\",\"Tags\":[{\"Value\":\"kv-dev-public-rt\",\"Key\":\"Name\"},{\"Value\":\"capstone-kv\",\"Key\":\"Project\"},{\"Value\":\"dev\",\"Key\":\"Environment\"},{\"Value\":\"m1\",\"Key\":\"Milestone\"},{\"Value\":\"korotych\",\"Key\":\"Owner\"}]}",
+            "ActualProperties": "{\"VpcId\":\"vpc-02d58723133ddaa5b\",\"Tags\":[{\"Key\":\"Milestone\",\"Value\":\"m1\"},{\"Key\":\"Project\",\"Value\":\"capstone-kv\"},{\"Key\":\"Owner\",\"Value\":\"korotych\"},{\"Key\":\"Environment\",\"Value\":\"dev\"},{\"Key\":\"Name\",\"Value\":\"kv-dev-public-rt\"}]}",
+            "PropertyDifferences": [],
+            "StackResourceDriftStatus": "IN_SYNC",
+            "Timestamp": "2026-11-12T19:20:09.758000+00:00"
+        },
+        {
+            "StackId": "arn:aws:cloudformation:us-east-1:804122474090:stack/kv-network/29de0e40-dec8-11f1-bf67-0ec669663bd7",
+            "LogicalResourceId": "PublicSubnet1",
+            "PhysicalResourceId": "subnet-05d9d45fcfb13cdb5",
+            "ResourceType": "AWS::EC2::Subnet",
+            "ExpectedProperties": "{\"CidrBlock\":\"10.20.0.0/24\",\"AvailabilityZone\":\"us-east-1a\",\"VpcId\":\"vpc-02d58723133ddaa5b\",\"MapPublicIpOnLaunch\":true,\"Tags\":[{\"Value\":\"kv-dev-public-1\",\"Key\":\"Name\"},{\"Value\":\"capstone-kv\",\"Key\":\"Project\"},{\"Value\":\"dev\",\"Key\":\"Environment\"},{\"Value\":\"m1\",\"Key\":\"Milestone\"},{\"Value\":\"korotych\",\"Key\":\"Owner\"}]}",
+            "ActualProperties": "{\"AvailabilityZone\":\"us-east-1a\",\"CidrBlock\":\"10.20.0.0/24\",\"MapPublicIpOnLaunch\":true,\"VpcId\":\"vpc-02d58723133ddaa5b\",\"Tags\":[{\"Value\":\"korotych\",\"Key\":\"Owner\"},{\"Value\":\"dev\",\"Key\":\"Environment\"},{\"Value\":\"kv-dev-public-1\",\"Key\":\"Name\"},{\"Value\":\"m1\",\"Key\":\"Milestone\"},{\"Value\":\"capstone-kv\",\"Key\":\"Project\"}]}",
+            "PropertyDifferences": [],
+            "StackResourceDriftStatus": "IN_SYNC",
+            "Timestamp": "2026-11-12T19:20:10.132000+00:00"
+        },
+        {
+            "StackId": "arn:aws:cloudformation:us-east-1:804122474090:stack/kv-network/29de0e40-dec8-11f1-bf67-0ec669663bd7",
+            "LogicalResourceId": "PublicSubnet2",
+            "PhysicalResourceId": "subnet-0699b626c56362cbe",
+            "ResourceType": "AWS::EC2::Subnet",
+            "ExpectedProperties": "{\"CidrBlock\":\"10.20.1.0/24\",\"AvailabilityZone\":\"us-east-1b\",\"VpcId\":\"vpc-02d58723133ddaa5b\",\"MapPublicIpOnLaunch\":true,\"Tags\":[{\"Value\":\"kv-dev-public-2\",\"Key\":\"Name\"},{\"Value\":\"capstone-kv\",\"Key\":\"Project\"},{\"Value\":\"dev\",\"Key\":\"Environment\"},{\"Value\":\"m1\",\"Key\":\"Milestone\"},{\"Value\":\"korotych\",\"Key\":\"Owner\"}]}",
+            "ActualProperties": "{\"AvailabilityZone\":\"us-east-1b\",\"CidrBlock\":\"10.20.1.0/24\",\"MapPublicIpOnLaunch\":true,\"VpcId\":\"vpc-02d58723133ddaa5b\",\"Tags\":[{\"Value\":\"korotych\",\"Key\":\"Owner\"},{\"Value\":\"capstone-kv\",\"Key\":\"Project\"},{\"Value\":\"m1\",\"Key\":\"Milestone\"},{\"Value\":\"kv-dev-public-2\",\"Key\":\"Name\"},{\"Value\":\"dev\",\"Key\":\"Environment\"}]}",
+            "PropertyDifferences": [],
+            "StackResourceDriftStatus": "IN_SYNC",
+            "Timestamp": "2026-11-12T19:20:10.200000+00:00"
+        },
+        {
+            "StackId": "arn:aws:cloudformation:us-east-1:804122474090:stack/kv-network/29de0e40-dec8-11f1-bf67-0ec669663bd7",
+            "LogicalResourceId": "Vpc",
+            "PhysicalResourceId": "vpc-02d58723133ddaa5b",
+            "ResourceType": "AWS::EC2::VPC",
+            "ExpectedProperties": "{\"CidrBlock\":\"10.20.0.0/16\",\"EnableDnsSupport\":true,\"EnableDnsHostnames\":true,\"Tags\":[{\"Value\":\"kv-dev-vpc\",\"Key\":\"Name\"},{\"Value\":\"capstone-kv\",\"Key\":\"Project\"},{\"Value\":\"dev\",\"Key\":\"Environment\"},{\"Value\":\"m1\",\"Key\":\"Milestone\"},{\"Value\":\"korotych\",\"Key\":\"Owner\"}]}",
+            "ActualProperties": "{\"CidrBlock\":\"10.20.0.0/16\",\"EnableDnsSupport\":true,\"EnableDnsHostnames\":true,\"Tags\":[{\"Key\":\"Milestone\",\"Value\":\"m1\"},{\"Key\":\"Name\",\"Value\":\"kv-dev-vpc\"},{\"Key\":\"Project\",\"Value\":\"capstone-kv\"},{\"Key\":\"Owner\",\"Value\":\"korotych\"},{\"Key\":\"Environment\",\"Value\":\"dev\"}]}",
+            "PropertyDifferences": [],
+            "StackResourceDriftStatus": "IN_SYNC",
+            "Timestamp": "2026-11-12T19:20:10.781000+00:00"
+        }
+    ]
+}

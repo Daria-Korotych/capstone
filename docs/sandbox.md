@@ -6,6 +6,10 @@
 
 $20 (panel shows "Used $0 of $20" at session start, 2026-11-12).
 
+## Sandbox-provisioned resources
+
+AWS Academy creates a CloudFormation stack `c229528a5781610l18353535t1w804122474090` (description "very basic template") at lab start. It contains IAMUser `awsstudent` with an access key, roles LambdaRole, myBasicLambdaRole and myS3Role, an instance profile, a managed policy and an InternetGateway. It is not part of the project and must not be deleted.
+
 ## Run 2026-11-12T17:25:42Z
 
 - Role: voclabs
