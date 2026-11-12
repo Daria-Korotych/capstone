@@ -30,9 +30,36 @@ scripts/verify-iam.sh       # lints infra/iam.yaml and checks it against the IAM
 
 VPC, subnets and routing: see [docs/network.md](docs/network.md).
 
+```mermaid
+flowchart TB
+    Internet((Internet))
+    IGW[Internet Gateway]
+    subgraph VPC["VPC 10.20.0.0/16"]
+        subgraph AZA["us-east-1a"]
+            PUB1["kv-dev-public-1<br/>10.20.0.0/24"]:::public
+            PRIV1["kv-dev-private-1<br/>10.20.10.0/24"]:::private
+        end
+        subgraph AZB["us-east-1b"]
+            PUB2["kv-dev-public-2<br/>10.20.1.0/24"]:::public
+            PRIV2["kv-dev-private-2<br/>10.20.11.0/24"]:::private
+        end
+        RTPUB["Public route table<br/>10.20.0.0/16 → local<br/>0.0.0.0/0 → IGW"]
+        RTPRIV["Private route table<br/>10.20.0.0/16 → local"]
+    end
+    PUB1 --- RTPUB
+    PUB2 --- RTPUB
+    PRIV1 --- RTPRIV
+    PRIV2 --- RTPRIV
+    RTPUB -->|"0.0.0.0/0"| IGW
+    IGW --> Internet
+
+    classDef public fill:#c8f7c5,stroke:#2e7d32,color:#000
+    classDef private fill:#f7c5c5,stroke:#c62828,color:#000
+```
+
 ## Access
 
-Read-only access is defined in `infra/iam.yaml`: the `ReadOnlyPolicy` policy and the `ReadOnlyRole` role, which only the principal passed as the `TrustedPrincipalArn` parameter can assume. A reviewer calls `sts:AssumeRole` and gets temporary credentials with view rights (network, project stacks, bucket metadata, monitoring, quotas) and no writes and no object contents; this beats a user group because the credentials expire instead of staying as permanent membership. The sandbox did not allow this stack to be created (`iam:CreatePolicy` is denied); details and the exact refusal text: [docs/labrole.md](docs/labrole.md#deploying-kv-iam).
+Read-only access is defined in `infra/iam.yaml`: the `ReadOnlyPolicy` policy and the `ReadOnlyRole` role, which the principal passed as the `TrustedPrincipalArn` parameter can assume. The sandbox deploy attempt passed `arn:aws:iam::<account>:root`, which means "the account": any principal in it whose own identity policy allows `sts:AssumeRole` on this role can take it; for "exactly one principal" pass a specific role ARN. A reviewer calls `sts:AssumeRole` and gets temporary credentials with view rights (network, project stacks, bucket metadata, alarms and the metric list, quotas) and no writes and no object contents; this beats a user group because the credentials expire instead of staying as permanent membership. The sandbox did not allow this stack to be created (`iam:CreatePolicy` is denied); details and the exact refusal text: [docs/labrole.md](docs/labrole.md#deploying-kv-iam).
 
 ## What changed in M1
 

@@ -8,6 +8,6 @@ case "$ARN" in
   *) echo "Sandbox session missing or expired" >&2; exit 1 ;;
 esac
 
-echo "$ARN" >&2
 ROLE=${ARN#*:assumed-role/}
+echo "arn:aws:sts::<acct>:assumed-role/${ROLE%%/*}/<session>" >&2
 echo "${ROLE%%/*}"

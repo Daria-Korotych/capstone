@@ -57,7 +57,7 @@ Resources:
     Type: AWS::IAM::Role
     Properties:
       RoleName: !Sub '${ApplicationName}-${Environment}-readonly'
-      Description: Read-only inspection role, assumable only by the principal passed as TrustedPrincipalArn
+      Description: Read-only inspection role, assumable by the principal passed as TrustedPrincipalArn (an account root ARN delegates the choice to that account's identity policies)
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
