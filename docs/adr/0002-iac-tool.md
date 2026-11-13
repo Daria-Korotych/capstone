@@ -37,7 +37,7 @@ Status: Accepted
 
 ## Consequences
 
-- Рішення живе в коді так: шаблони `infra/network.yaml` і `infra/iam.yaml`, деплой мережі — `scripts/deploy-network.sh`, перевірка IAM-шаблону — `scripts/verify-iam.sh`, change set і drift — `scripts/recreate.sh` (`design.md`, таблиця реалізації).
+- Рішення живе в коді так: шаблони `infra/network.yaml` і `infra/iam.yaml`, деплой мережі — `scripts/deploy-network.sh`, перевірка IAM-шаблону — `scripts/verify-iam.sh`, перестворення мережі — `scripts/recreate.sh`. Change set і drift detection не автоматизовані скриптом: вони запускались окремими командами `aws cloudformation` (`create-change-set`, `detect-stack-drift`, `describe-stack-resource-drifts`), бо drift-сценарій вимагає ручної зміни тегу в консолі між двома детекціями. Хід і вивід — `docs/recreate-log.md` і `docs/evidence/recreate/` (`design.md`, таблиця реалізації).
 - `deploy-network.sh` має видаляти стек у `ROLLBACK_COMPLETE` перед створенням (`design.md`, Risks).
 - Між стеками дані передаються через Outputs/Exports і `Fn::ImportValue` (ADR-0003). Імпортований export не можна змінити чи видалити, поки його використовує інший стек.
 - Перехід в іншу хмару означатиме переписування шаблонів. Це свідомий lock-in: капстоун живе тільки в AWS.
