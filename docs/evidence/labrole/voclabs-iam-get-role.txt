@@ -1,0 +1,4 @@
+$ aws iam get-role --role-name voclabs
+
+aws: [ERROR]: An error occurred (AccessDenied) when calling the GetRole operation: User: arn:aws:sts::804122474090:assumed-role/voclabs/<session> is not authorized to perform: iam:GetRole on resource: role voclabs with an explicit deny in an identity-based policy. Go to https://us-east-1.console.aws.amazon.com/iam/home?region=us-east-1#/authorization-details/80ms8vilkl0po8kd0fht7pttt for complete details, or call the GetRequestAuthorizationDetails API with the following authorization id: 80ms8vilkl0po8kd0fht7pttt
+[exit 254]

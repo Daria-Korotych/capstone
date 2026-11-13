@@ -1,0 +1,6 @@
+$ aws iam list-role-policies --role-name voclabs
+{
+    "PolicyNames": [
+        "Pvoclabs"
+    ]
+}

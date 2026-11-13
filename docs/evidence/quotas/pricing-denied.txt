@@ -1,0 +1,2 @@
+
+aws: [ERROR]: An error occurred (AccessDeniedException) when calling the GetProducts operation: User: arn:aws:sts::804122474090:assumed-role/voclabs/<session> is not authorized to perform: pricing:GetProducts with an explicit deny in a service control policy: arn:aws:organizations::324194600584:policy/o-qxjkcrvw8u/service_control_policy/p-qq2wwtt5

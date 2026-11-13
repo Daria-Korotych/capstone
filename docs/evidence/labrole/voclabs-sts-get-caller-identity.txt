@@ -1,0 +1,6 @@
+$ aws sts get-caller-identity
+{
+    "UserId": "AROA3WOLPGZVFUECGLHIZ:<session>",
+    "Account": "804122474090",
+    "Arn": "arn:aws:sts::804122474090:assumed-role/voclabs/<session>"
+}

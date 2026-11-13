@@ -1,0 +1,244 @@
+{
+    "Subnets": [
+        {
+            "AvailabilityZoneId": "use1-az4",
+            "MapCustomerOwnedIpOnLaunch": false,
+            "OwnerId": "804122474090",
+            "AssignIpv6AddressOnCreation": false,
+            "Ipv6CidrBlockAssociationSet": [],
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "kv-dev-public-1"
+                },
+                {
+                    "Key": "Project",
+                    "Value": "capstone-kv"
+                },
+                {
+                    "Key": "Environment",
+                    "Value": "dev"
+                },
+                {
+                    "Key": "aws:cloudformation:logical-id",
+                    "Value": "PublicSubnet1"
+                },
+                {
+                    "Key": "Owner",
+                    "Value": "korotych"
+                },
+                {
+                    "Key": "aws:cloudformation:stack-name",
+                    "Value": "kv-network"
+                },
+                {
+                    "Key": "Milestone",
+                    "Value": "m1"
+                },
+                {
+                    "Key": "aws:cloudformation:stack-id",
+                    "Value": "arn:aws:cloudformation:us-east-1:804122474090:stack/kv-network/3c1b7bf0-debf-11f1-a18c-0e52d764ef3b"
+                }
+            ],
+            "SubnetArn": "arn:aws:ec2:us-east-1:804122474090:subnet/subnet-0f63e57ee284a7baa",
+            "EnableDns64": false,
+            "Ipv6Native": false,
+            "PrivateDnsNameOptionsOnLaunch": {
+                "HostnameType": "ip-name",
+                "EnableResourceNameDnsARecord": false,
+                "EnableResourceNameDnsAAAARecord": false
+            },
+            "BlockPublicAccessStates": {
+                "InternetGatewayBlockMode": "off"
+            },
+            "SubnetId": "subnet-0f63e57ee284a7baa",
+            "State": "available",
+            "VpcId": "vpc-03b7aa11ab7e9ad90",
+            "CidrBlock": "10.20.0.0/24",
+            "AvailableIpAddressCount": 251,
+            "AvailabilityZone": "us-east-1a",
+            "DefaultForAz": false,
+            "MapPublicIpOnLaunch": true
+        },
+        {
+            "AvailabilityZoneId": "use1-az6",
+            "MapCustomerOwnedIpOnLaunch": false,
+            "OwnerId": "804122474090",
+            "AssignIpv6AddressOnCreation": false,
+            "Ipv6CidrBlockAssociationSet": [],
+            "Tags": [
+                {
+                    "Key": "Name",
+                    "Value": "kv-dev-public-2"
+                },
+                {
+                    "Key": "Project",
+                    "Value": "capstone-kv"
+                },
+                {
+                    "Key": "Owner",
+                    "Value": "korotych"
+                },
+                {
+                    "Key": "aws:cloudformation:logical-id",
+                    "Value": "PublicSubnet2"
+                },
+                {
+                    "Key": "Milestone",
+                    "Value": "m1"
+                },
+                {
+                    "Key": "aws:cloudformation:stack-id",
+                    "Value": "arn:aws:cloudformation:us-east-1:804122474090:stack/kv-network/3c1b7bf0-debf-11f1-a18c-0e52d764ef3b"
+                },
+                {
+                    "Key": "aws:cloudformation:stack-name",
+                    "Value": "kv-network"
+                },
+                {
+                    "Key": "Environment",
+                    "Value": "dev"
+                }
+            ],
+            "SubnetArn": "arn:aws:ec2:us-east-1:804122474090:subnet/subnet-058542248054fe019",
+            "EnableDns64": false,
+            "Ipv6Native": false,
+            "PrivateDnsNameOptionsOnLaunch": {
+                "HostnameType": "ip-name",
+                "EnableResourceNameDnsARecord": false,
+                "EnableResourceNameDnsAAAARecord": false
+            },
+            "BlockPublicAccessStates": {
+                "InternetGatewayBlockMode": "off"
+            },
+            "SubnetId": "subnet-058542248054fe019",
+            "State": "available",
+            "VpcId": "vpc-03b7aa11ab7e9ad90",
+            "CidrBlock": "10.20.1.0/24",
+            "AvailableIpAddressCount": 251,
+            "AvailabilityZone": "us-east-1b",
+            "DefaultForAz": false,
+            "MapPublicIpOnLaunch": true
+        },
+        {
+            "AvailabilityZoneId": "use1-az6",
+            "MapCustomerOwnedIpOnLaunch": false,
+            "OwnerId": "804122474090",
+            "AssignIpv6AddressOnCreation": false,
+            "Ipv6CidrBlockAssociationSet": [],
+            "Tags": [
+                {
+                    "Key": "Environment",
+                    "Value": "dev"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "kv-dev-private-2"
+                },
+                {
+                    "Key": "aws:cloudformation:stack-id",
+                    "Value": "arn:aws:cloudformation:us-east-1:804122474090:stack/kv-network/3c1b7bf0-debf-11f1-a18c-0e52d764ef3b"
+                },
+                {
+                    "Key": "Milestone",
+                    "Value": "m1"
+                },
+                {
+                    "Key": "aws:cloudformation:stack-name",
+                    "Value": "kv-network"
+                },
+                {
+                    "Key": "Owner",
+                    "Value": "korotych"
+                },
+                {
+                    "Key": "Project",
+                    "Value": "capstone-kv"
+                },
+                {
+                    "Key": "aws:cloudformation:logical-id",
+                    "Value": "PrivateSubnet2"
+                }
+            ],
+            "SubnetArn": "arn:aws:ec2:us-east-1:804122474090:subnet/subnet-070056a0f93a0eae5",
+            "EnableDns64": false,
+            "Ipv6Native": false,
+            "PrivateDnsNameOptionsOnLaunch": {
+                "HostnameType": "ip-name",
+                "EnableResourceNameDnsARecord": false,
+                "EnableResourceNameDnsAAAARecord": false
+            },
+            "BlockPublicAccessStates": {
+                "InternetGatewayBlockMode": "off"
+            },
+            "SubnetId": "subnet-070056a0f93a0eae5",
+            "State": "available",
+            "VpcId": "vpc-03b7aa11ab7e9ad90",
+            "CidrBlock": "10.20.11.0/24",
+            "AvailableIpAddressCount": 251,
+            "AvailabilityZone": "us-east-1b",
+            "DefaultForAz": false,
+            "MapPublicIpOnLaunch": false
+        },
+        {
+            "AvailabilityZoneId": "use1-az4",
+            "MapCustomerOwnedIpOnLaunch": false,
+            "OwnerId": "804122474090",
+            "AssignIpv6AddressOnCreation": false,
+            "Ipv6CidrBlockAssociationSet": [],
+            "Tags": [
+                {
+                    "Key": "aws:cloudformation:stack-name",
+                    "Value": "kv-network"
+                },
+                {
+                    "Key": "Milestone",
+                    "Value": "m1"
+                },
+                {
+                    "Key": "aws:cloudformation:stack-id",
+                    "Value": "arn:aws:cloudformation:us-east-1:804122474090:stack/kv-network/3c1b7bf0-debf-11f1-a18c-0e52d764ef3b"
+                },
+                {
+                    "Key": "Owner",
+                    "Value": "korotych"
+                },
+                {
+                    "Key": "aws:cloudformation:logical-id",
+                    "Value": "PrivateSubnet1"
+                },
+                {
+                    "Key": "Environment",
+                    "Value": "dev"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "kv-dev-private-1"
+                },
+                {
+                    "Key": "Project",
+                    "Value": "capstone-kv"
+                }
+            ],
+            "SubnetArn": "arn:aws:ec2:us-east-1:804122474090:subnet/subnet-0977163f30a783ce7",
+            "EnableDns64": false,
+            "Ipv6Native": false,
+            "PrivateDnsNameOptionsOnLaunch": {
+                "HostnameType": "ip-name",
+                "EnableResourceNameDnsARecord": false,
+                "EnableResourceNameDnsAAAARecord": false
+            },
+            "BlockPublicAccessStates": {
+                "InternetGatewayBlockMode": "off"
+            },
+            "SubnetId": "subnet-0977163f30a783ce7",
+            "State": "available",
+            "VpcId": "vpc-03b7aa11ab7e9ad90",
+            "CidrBlock": "10.20.10.0/24",
+            "AvailableIpAddressCount": 251,
+            "AvailabilityZone": "us-east-1a",
+            "DefaultForAz": false,
+            "MapPublicIpOnLaunch": false
+        }
+    ]
+}

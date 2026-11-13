@@ -1,0 +1,175 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: kv network - VPC with two public and two private subnets, no NAT (ADR 0004)
+
+Parameters:
+  Environment:
+    Type: String
+    Default: dev
+  ApplicationName:
+    Type: String
+    Default: kv
+  Owner:
+    Type: String
+
+Resources:
+  Vpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.20.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - { Key: Name, Value: !Sub '${ApplicationName}-${Environment}-vpc' }
+        - { Key: Project, Value: capstone-kv }
+        - { Key: Environment, Value: !Ref Environment }
+        - { Key: Milestone, Value: m1 }
+        - { Key: Owner, Value: !Ref Owner }
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - { Key: Name, Value: !Sub '${ApplicationName}-${Environment}-igw' }
+        - { Key: Project, Value: capstone-kv }
+        - { Key: Environment, Value: !Ref Environment }
+        - { Key: Milestone, Value: m1 }
+        - { Key: Owner, Value: !Ref Owner }
+
+  GatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref Vpc
+      InternetGatewayId: !Ref InternetGateway
+
+  PublicSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      CidrBlock: 10.20.0.0/24
+      AvailabilityZone: !Select [0, !GetAZs '']
+      MapPublicIpOnLaunch: true
+      Tags:
+        - { Key: Name, Value: !Sub '${ApplicationName}-${Environment}-public-1' }
+        - { Key: Project, Value: capstone-kv }
+        - { Key: Environment, Value: !Ref Environment }
+        - { Key: Milestone, Value: m1 }
+        - { Key: Owner, Value: !Ref Owner }
+
+  PublicSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      CidrBlock: 10.20.1.0/24
+      AvailabilityZone: !Select [1, !GetAZs '']
+      MapPublicIpOnLaunch: true
+      Tags:
+        - { Key: Name, Value: !Sub '${ApplicationName}-${Environment}-public-2' }
+        - { Key: Project, Value: capstone-kv }
+        - { Key: Environment, Value: !Ref Environment }
+        - { Key: Milestone, Value: m1 }
+        - { Key: Owner, Value: !Ref Owner }
+
+  PrivateSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      CidrBlock: 10.20.10.0/24
+      AvailabilityZone: !Select [0, !GetAZs '']
+      MapPublicIpOnLaunch: false
+      Tags:
+        - { Key: Name, Value: !Sub '${ApplicationName}-${Environment}-private-1' }
+        - { Key: Project, Value: capstone-kv }
+        - { Key: Environment, Value: !Ref Environment }
+        - { Key: Milestone, Value: m1 }
+        - { Key: Owner, Value: !Ref Owner }
+
+  PrivateSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref Vpc
+      CidrBlock: 10.20.11.0/24
+      AvailabilityZone: !Select [1, !GetAZs '']
+      MapPublicIpOnLaunch: false
+      Tags:
+        - { Key: Name, Value: !Sub '${ApplicationName}-${Environment}-private-2' }
+        - { Key: Project, Value: capstone-kv }
+        - { Key: Environment, Value: !Ref Environment }
+        - { Key: Milestone, Value: m1 }
+        - { Key: Owner, Value: !Ref Owner }
+
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref Vpc
+      Tags:
+        - { Key: Name, Value: !Sub '${ApplicationName}-${Environment}-public-rt' }
+        - { Key: Project, Value: capstone-kv }
+        - { Key: Environment, Value: !Ref Environment }
+        - { Key: Milestone, Value: m1 }
+        - { Key: Owner, Value: !Ref Owner }
+
+  PublicDefaultRoute:
+    Type: AWS::EC2::Route
+    DependsOn: GatewayAttachment
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  # No routes on purpose: only the implicit local route (no NAT, ADR 0004).
+  PrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref Vpc
+      Tags:
+        - { Key: Name, Value: !Sub '${ApplicationName}-${Environment}-private-rt' }
+        - { Key: Project, Value: capstone-kv }
+        - { Key: Environment, Value: !Ref Environment }
+        - { Key: Milestone, Value: m1 }
+        - { Key: Owner, Value: !Ref Owner }
+
+  PublicSubnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet1
+      RouteTableId: !Ref PublicRouteTable
+
+  PublicSubnet2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnet2
+      RouteTableId: !Ref PublicRouteTable
+
+  PrivateSubnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnet1
+      RouteTableId: !Ref PrivateRouteTable
+
+  PrivateSubnet2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateSubnet2
+      RouteTableId: !Ref PrivateRouteTable
+
+Outputs:
+  VpcId:
+    Value: !Ref Vpc
+    Export:
+      Name: !Sub '${AWS::StackName}-VpcId'
+  PublicSubnet1Id:
+    Value: !Ref PublicSubnet1
+    Export:
+      Name: !Sub '${AWS::StackName}-PublicSubnet1Id'
+  PublicSubnet2Id:
+    Value: !Ref PublicSubnet2
+    Export:
+      Name: !Sub '${AWS::StackName}-PublicSubnet2Id'
+  PrivateSubnet1Id:
+    Value: !Ref PrivateSubnet1
+    Export:
+      Name: !Sub '${AWS::StackName}-PrivateSubnet1Id'
+  PrivateSubnet2Id:
+    Value: !Ref PrivateSubnet2
+    Export:
+      Name: !Sub '${AWS::StackName}-PrivateSubnet2Id'

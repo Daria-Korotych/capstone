@@ -1,0 +1,4 @@
+$ aws iam create-user --user-name kv-probe-user
+
+aws: [ERROR]: An error occurred (AccessDenied) when calling the CreateUser operation: User: arn:aws:sts::804122474090:assumed-role/voclabs/<session> is not authorized to perform: iam:CreateUser on resource: arn:aws:iam::804122474090:user/kv-probe-user because no identity-based policy allows the iam:CreateUser action. Go to https://us-east-1.console.aws.amazon.com/iam/home?region=us-east-1#/authorization-details/382nl10da22424648mvprovgb for complete details, or call the GetRequestAuthorizationDetails API with the following authorization id: 382nl10da22424648mvprovgb
+[exit 254]

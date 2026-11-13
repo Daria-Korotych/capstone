@@ -1,0 +1,22 @@
+region=us-east-1 ami=ami-09bf9dfeeb1e9adbc subnet=subnet-0977163f30a783ce7
+t2.micro: allowed (DryRunOperation)
+  
+aws: [ERROR]: An error occurred (DryRunOperation) when calling the RunInstances operation: Request would have succeeded, but DryRun flag is set.
+t3.micro: allowed (DryRunOperation)
+  
+aws: [ERROR]: An error occurred (DryRunOperation) when calling the RunInstances operation: Request would have succeeded, but DryRun flag is set.
+t3.small: allowed (DryRunOperation)
+  
+aws: [ERROR]: An error occurred (DryRunOperation) when calling the RunInstances operation: Request would have succeeded, but DryRun flag is set.
+t3.medium: allowed (DryRunOperation)
+  
+aws: [ERROR]: An error occurred (DryRunOperation) when calling the RunInstances operation: Request would have succeeded, but DryRun flag is set.
+t2.medium: allowed (DryRunOperation)
+  
+aws: [ERROR]: An error occurred (DryRunOperation) when calling the RunInstances operation: Request would have succeeded, but DryRun flag is set.
+m5.large: denied (UnauthorizedOperation)
+  
+aws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the RunInstances operation: You are not authorized to perform this operation. User: arn:aws:sts::804122474090:assumed-role/voclabs/<session> is not authorized to perform: ec2:RunInstances on resource: arn:aws:ec2:us-east-1:804122474090:instance/* with an explicit deny in an identity-based policy. Encoded authorization failure message: SoQ9_ClKdQaN45whiQSGBolIsUb3jx2KHUgtV0wjU7PWZEUELusdQYUQVVlK_pMPlpPXhxBS3Sb6-PItxL3mIkCw8m5dHFvDM_TceTSSDKJVNX5UJJd5BZdiZmwQPB2hgv3oqlJZ55GoNq_CPbCR6blRLM_wW8u2xYdk8WiY8BvJWPtk8BvF8-p-naHDSrzxL-dxtJzClwJVoaWJoyaZOiT_qwv4xz6d31lPrJd6UVX_gLCvJjOQhia9BSgWOBZ5CGs8lHZDzrpVPbYpGsNZdFu_ZrYLm8Ty4z4e8e2ZS1qA8ukQRCb5SdTtVC2xzTGNI4wlDtNlMIcbdmtcQ-7d9xadGdwOyQQbh7Dgt2mM9_nrSQng8aPArYqdPPCRw95WB7IYZpIg0r2q7sRCVNop1GB9fbFVDfLrvk-7CC2djwXKfZV_rilsSot_jmSytpE_qYHhYCmqasiKgjKk-X_1SaaaSVorH2kn2Ys2XWlhEtNjuhFrjaPqh8bARrg4SFj9IgUMvT0nJyzftsea9LlLgXXXGYLgDgeuoblEVELmFEe5mgaajne4TGFXk696S3Ij_l92NkOifgyqd7ZQsvFXwQHoLlDBz1l3CHrvUV7T-HclhaG6L7RFCeDe-hYffQwW4Ya_wQWCkiHhgKXBMjase8sROnbE6zzIwZq7aEwhrj9tll7oNKSTLObxd1NZjKihpR_acYzhrsYkiJZkGftCYpjaVA9fXFLHfV1S8DBv-ux1TxLXE3twpYkwvFIA60iS1CU9xcZBeWBCUiCVAin28Hyc8z6djGjbQr_2f-SQAjQJrvBzZoECqgerYaxXkgKtj5JCxoSHEvubqZpyHbacZrfD6PYB5MuwApKoJVLuWNXVAwwefL9epQc6d-1UIaq-b4_ioY0MgDR7NxCIXG6TLpkqwyaWoo91ZCQ-sz81_IGYFxPcuUt0advF7xFYeSmNmCotHkRJXcsWCcZeJiwRFr0KVY3Sms1nndG38XfS-S5eYA
+c5.large: denied (UnauthorizedOperation)
+  
+aws: [ERROR]: An error occurred (UnauthorizedOperation) when calling the RunInstances operation: You are not authorized to perform this operation. User: arn:aws:sts::804122474090:assumed-role/voclabs/<session> is not authorized to perform: ec2:RunInstances on resource: arn:aws:ec2:us-east-1:804122474090:instance/* with an explicit deny in an identity-based policy. Encoded authorization failure message: L7_lYWIRsFJIxWHWtvaAk0vdjvW2_tTECq1rqjoZIbud9EsSFsnGqYLE7zWjMOQJyUhW5j9nXX3lAahxlNKn67N5lUE9suR0fqnwPe8rQt-YLFK1mvWCdGr5SAvndDa_UV16k3iewtcQPJiOKtyubZayoaIUkuIEYjgXgrUQnuRWb5O-3ILUz7-g_YwxQh62GWcNBS0hctDYjeoPEb4MRj0dJWw3metpL8nAApxWOB4nWLQuR3eqTH1-qG8cKZy4O9MDzA9_hsQFvnj2VESJdPEfPTwtsmrK2pZTRtUypaJM2JPgXU4ZKovZRjJmmW-RFqk6V6TMzGhZquSRrmrV8JGuzwhqc_A4ik4GDU7v1lpptu9_pTXCnomOAFMhu-QkgSEhlkDyNjCWbpg1q4I97oXHTyKxGMF96lAvPziAc_7hCW6bFBO-hRusa5bEG8QgIZQ85x-0bP_LlSumjLjGdp5Mafb-E6__lslVPtr1PBm_6b8LzsEL3XvMTI4J0Zby2zf8NzvRpMJOY9l0HnLPCvridt8Lcs736iwEHYMoy6UbuSGoRl0c16eShTRJwDLhjJbCpoakw-O-PxJmHTYSGTJNzdE997HNhkbz4jaQy5Vo5-Z5zPptuZTTNX0TDB4stDrfv53ELF9__Kk8KSx6L3oJW7ueZkMEpDvaSjeqxncVkeJX9J8IAPGzK2nXijDMYYtfMq4qx1HYvE-6R3iZ7ZXJwt4zTZiMgx5MZtieQJ9Cz_5qMiVHw4fxZY0oz3_lokEb1EjA-5nTQYPW8_duGavFK1FmkZooL1qfF1wevrnQZKhjM5HVOL83t4NPpqELAJ2_BRye5DP-W2g5oqEjpEIZ2hN1-iKE4wGLC0tu45sQAndNObeHGmApbZoj3lCZeV65v_Dl3dAVm3FCs0zCS7GfheaFEpt1bD5MES8JTQLW1_uLsJrOf93tPfQCqxC2SBWgL_uGULhYm0MRtzZMt3476rO6cONJkmUX1e_xPuGToME

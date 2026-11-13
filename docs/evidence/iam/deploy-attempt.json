@@ -1,0 +1,116 @@
+{
+    "StackEvents": [
+        {
+            "StackId": "arn:aws:cloudformation:us-east-1:804122474090:stack/kv-iam/7c117070-dec4-11f1-a18c-0e52d764ef3b",
+            "EventId": "d5681340-dec4-11f1-b067-0e0370815767",
+            "StackName": "kv-iam",
+            "OperationId": "79ccf37e-30f8-4ea3-aa20-5b213589f1a5",
+            "LogicalResourceId": "kv-iam",
+            "PhysicalResourceId": "arn:aws:cloudformation:us-east-1:804122474090:stack/kv-iam/7c117070-dec4-11f1-a18c-0e52d764ef3b",
+            "ResourceType": "AWS::CloudFormation::Stack",
+            "Timestamp": "2026-11-12T18:14:00.016000+00:00",
+            "ResourceStatus": "DELETE_COMPLETE"
+        },
+        {
+            "StackId": "arn:aws:cloudformation:us-east-1:804122474090:stack/kv-iam/7c117070-dec4-11f1-a18c-0e52d764ef3b",
+            "EventId": "d3d4a200-dec4-11f1-b516-0effc05d0489",
+            "StackName": "kv-iam",
+            "OperationId": "79ccf37e-30f8-4ea3-aa20-5b213589f1a5",
+            "LogicalResourceId": "kv-iam",
+            "PhysicalResourceId": "arn:aws:cloudformation:us-east-1:804122474090:stack/kv-iam/7c117070-dec4-11f1-a18c-0e52d764ef3b",
+            "ResourceType": "AWS::CloudFormation::Stack",
+            "Timestamp": "2026-11-12T18:13:57.402000+00:00",
+            "ResourceStatus": "DELETE_IN_PROGRESS",
+            "ResourceStatusReason": "User Initiated"
+        },
+        {
+            "StackId": "arn:aws:cloudformation:us-east-1:804122474090:stack/kv-iam/7c117070-dec4-11f1-a18c-0e52d764ef3b",
+            "EventId": "cd3efe90-dec4-11f1-b84d-0effdb9e6213",
+            "StackName": "kv-iam",
+            "OperationId": "6a0b2b09-52fd-4d36-96c4-32b9c1d979b6",
+            "LogicalResourceId": "kv-iam",
+            "PhysicalResourceId": "arn:aws:cloudformation:us-east-1:804122474090:stack/kv-iam/7c117070-dec4-11f1-a18c-0e52d764ef3b",
+            "ResourceType": "AWS::CloudFormation::Stack",
+            "Timestamp": "2026-11-12T18:13:46.337000+00:00",
+            "ResourceStatus": "ROLLBACK_COMPLETE",
+            "ClientRequestToken": "bc06bc64-7532-4fe6-a733-8f5084575343"
+        },
+        {
+            "StackId": "arn:aws:cloudformation:us-east-1:804122474090:stack/kv-iam/7c117070-dec4-11f1-a18c-0e52d764ef3b",
+            "EventId": "ReadOnlyPolicy-DELETE_COMPLETE-2026-11-12T18:13:45.899Z",
+            "StackName": "kv-iam",
+            "OperationId": "6a0b2b09-52fd-4d36-96c4-32b9c1d979b6",
+            "LogicalResourceId": "ReadOnlyPolicy",
+            "PhysicalResourceId": "",
+            "ResourceType": "AWS::IAM::ManagedPolicy",
+            "Timestamp": "2026-11-12T18:13:45.899000+00:00",
+            "ResourceStatus": "DELETE_COMPLETE",
+            "ResourceProperties": "{\"ManagedPolicyName\":\"kv-dev-readonly\",\"Description\":\"Inspection of network, stacks, bucket metadata, monitoring and quotas. No writes, no object contents.\",\"PolicyDocument\":{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"s3:GetBucket*\"],\"Resource\":\"arn:aws:s3:::capstone-kv-*\",\"Effect\":\"Allow\",\"Sid\":\"BucketMetadataOfProject\"},{\"Action\":[\"cloudformation:Describe*\",\"cloudformation:Get*\"],\"Resource\":\"arn:aws:cloudformation:us-east-1:804122474090:stack/kv-*/*\",\"Effect\":\"Allow\",\"Sid\":\"StacksOfProject\"},{\"Action\":[\"ec2:Describe*\",\"s3:ListAllMyBuckets\",\"cloudformation:ListStacks\",\"cloudwatch:Describe*\",\"cloudwatch:List*\",\"servicequotas:List*\"],\"Resource\":\"*\",\"Effect\":\"Allow\",\"Sid\":\"ListAndDescribeWithoutResourceLevelPermissions\"}]}}",
+            "ClientRequestToken": "bc06bc64-7532-4fe6-a733-8f5084575343"
+        },
+        {
+            "StackId": "arn:aws:cloudformation:us-east-1:804122474090:stack/kv-iam/7c117070-dec4-11f1-a18c-0e52d764ef3b",
+            "EventId": "81b64b40-dec4-11f1-9b02-0ec29c0394f1",
+            "StackName": "kv-iam",
+            "OperationId": "6a0b2b09-52fd-4d36-96c4-32b9c1d979b6",
+            "LogicalResourceId": "kv-iam",
+            "PhysicalResourceId": "arn:aws:cloudformation:us-east-1:804122474090:stack/kv-iam/7c117070-dec4-11f1-a18c-0e52d764ef3b",
+            "ResourceType": "AWS::CloudFormation::Stack",
+            "Timestamp": "2026-11-12T18:11:39.599000+00:00",
+            "ResourceStatus": "ROLLBACK_IN_PROGRESS",
+            "ResourceStatusReason": "The following resource(s) failed to create: [ReadOnlyPolicy]. Rollback requested by user.",
+            "ClientRequestToken": "bc06bc64-7532-4fe6-a733-8f5084575343"
+        },
+        {
+            "StackId": "arn:aws:cloudformation:us-east-1:804122474090:stack/kv-iam/7c117070-dec4-11f1-a18c-0e52d764ef3b",
+            "EventId": "ReadOnlyPolicy-CREATE_FAILED-2026-11-12T18:11:39.185Z",
+            "StackName": "kv-iam",
+            "OperationId": "d224a372-0c17-4b7c-81fe-5a2fe6fed996",
+            "LogicalResourceId": "ReadOnlyPolicy",
+            "PhysicalResourceId": "",
+            "ResourceType": "AWS::IAM::ManagedPolicy",
+            "Timestamp": "2026-11-12T18:11:39.185000+00:00",
+            "ResourceStatus": "CREATE_FAILED",
+            "ResourceStatusReason": "Resource handler returned message: \"User: arn:aws:sts::804122474090:assumed-role/voclabs/<session> is not authorized to perform: iam:CreatePolicy on resource: policy kv-dev-readonly because no identity-based policy allows the iam:CreatePolicy action. Go to https://us-east-1.console.aws.amazon.com/iam/home?region=us-east-1#/authorization-details/8m2vbdu0o4mwyjmuuxisl5k0i for complete details, or call the GetRequestAuthorizationDetails API with the following authorization id: 8m2vbdu0o4mwyjmuuxisl5k0i (Service: Iam, Status Code: 403, Request ID: 6fd6436a-b042-46b6-b3e4-6aac329de61c) (SDK Attempt Count: 1)\" (RequestToken: 3139c246-d11a-76b2-c64c-4926ec082498, HandlerErrorCode: AccessDenied)",
+            "ResourceProperties": "{\"ManagedPolicyName\":\"kv-dev-readonly\",\"Description\":\"Inspection of network, stacks, bucket metadata, monitoring and quotas. No writes, no object contents.\",\"PolicyDocument\":{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"s3:GetBucket*\"],\"Resource\":\"arn:aws:s3:::capstone-kv-*\",\"Effect\":\"Allow\",\"Sid\":\"BucketMetadataOfProject\"},{\"Action\":[\"cloudformation:Describe*\",\"cloudformation:Get*\"],\"Resource\":\"arn:aws:cloudformation:us-east-1:804122474090:stack/kv-*/*\",\"Effect\":\"Allow\",\"Sid\":\"StacksOfProject\"},{\"Action\":[\"ec2:Describe*\",\"s3:ListAllMyBuckets\",\"cloudformation:ListStacks\",\"cloudwatch:Describe*\",\"cloudwatch:List*\",\"servicequotas:List*\"],\"Resource\":\"*\",\"Effect\":\"Allow\",\"Sid\":\"ListAndDescribeWithoutResourceLevelPermissions\"}]}}",
+            "ClientRequestToken": "bc06bc64-7532-4fe6-a733-8f5084575343"
+        },
+        {
+            "StackId": "arn:aws:cloudformation:us-east-1:804122474090:stack/kv-iam/7c117070-dec4-11f1-a18c-0e52d764ef3b",
+            "EventId": "ReadOnlyPolicy-CREATE_IN_PROGRESS-2026-11-12T18:11:38.452Z",
+            "StackName": "kv-iam",
+            "OperationId": "d224a372-0c17-4b7c-81fe-5a2fe6fed996",
+            "LogicalResourceId": "ReadOnlyPolicy",
+            "PhysicalResourceId": "",
+            "ResourceType": "AWS::IAM::ManagedPolicy",
+            "Timestamp": "2026-11-12T18:11:38.452000+00:00",
+            "ResourceStatus": "CREATE_IN_PROGRESS",
+            "ResourceProperties": "{\"ManagedPolicyName\":\"kv-dev-readonly\",\"Description\":\"Inspection of network, stacks, bucket metadata, monitoring and quotas. No writes, no object contents.\",\"PolicyDocument\":{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"s3:GetBucket*\"],\"Resource\":\"arn:aws:s3:::capstone-kv-*\",\"Effect\":\"Allow\",\"Sid\":\"BucketMetadataOfProject\"},{\"Action\":[\"cloudformation:Describe*\",\"cloudformation:Get*\"],\"Resource\":\"arn:aws:cloudformation:us-east-1:804122474090:stack/kv-*/*\",\"Effect\":\"Allow\",\"Sid\":\"StacksOfProject\"},{\"Action\":[\"ec2:Describe*\",\"s3:ListAllMyBuckets\",\"cloudformation:ListStacks\",\"cloudwatch:Describe*\",\"cloudwatch:List*\",\"servicequotas:List*\"],\"Resource\":\"*\",\"Effect\":\"Allow\",\"Sid\":\"ListAndDescribeWithoutResourceLevelPermissions\"}]}}",
+            "ClientRequestToken": "bc06bc64-7532-4fe6-a733-8f5084575343"
+        },
+        {
+            "StackId": "arn:aws:cloudformation:us-east-1:804122474090:stack/kv-iam/7c117070-dec4-11f1-a18c-0e52d764ef3b",
+            "EventId": "7fb10560-dec4-11f1-bbf6-0ed6c0a24375",
+            "StackName": "kv-iam",
+            "OperationId": "d224a372-0c17-4b7c-81fe-5a2fe6fed996",
+            "LogicalResourceId": "kv-iam",
+            "PhysicalResourceId": "arn:aws:cloudformation:us-east-1:804122474090:stack/kv-iam/7c117070-dec4-11f1-a18c-0e52d764ef3b",
+            "ResourceType": "AWS::CloudFormation::Stack",
+            "Timestamp": "2026-11-12T18:11:36.225000+00:00",
+            "ResourceStatus": "CREATE_IN_PROGRESS",
+            "ResourceStatusReason": "User Initiated",
+            "ClientRequestToken": "bc06bc64-7532-4fe6-a733-8f5084575343"
+        },
+        {
+            "StackId": "arn:aws:cloudformation:us-east-1:804122474090:stack/kv-iam/7c117070-dec4-11f1-a18c-0e52d764ef3b",
+            "EventId": "7c10fb40-dec4-11f1-a18c-0e52d764ef3b",
+            "StackName": "kv-iam",
+            "LogicalResourceId": "kv-iam",
+            "PhysicalResourceId": "arn:aws:cloudformation:us-east-1:804122474090:stack/kv-iam/7c117070-dec4-11f1-a18c-0e52d764ef3b",
+            "ResourceType": "AWS::CloudFormation::Stack",
+            "Timestamp": "2026-11-12T18:11:30.234000+00:00",
+            "ResourceStatus": "REVIEW_IN_PROGRESS",
+            "ResourceStatusReason": "User Initiated"
+        }
+    ]
+}

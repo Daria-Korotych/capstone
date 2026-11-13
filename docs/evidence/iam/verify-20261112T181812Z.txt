@@ -1,0 +1,20 @@
+PASS template exists
+PASS cfn-lint
+PASS validate-template
+PASS policy document extracted
+     write actions implicitDeny: [["ec2:CreateVpc","implicitDeny"],["s3:PutObject","implicitDeny"],["iam:CreateRole","implicitDeny"],["cloudformation:DeleteStack","implicitDeny"]]
+PASS write actions implicitDeny
+     view actions allowed (ec2): [["ec2:DescribeVpcs","allowed"]]
+PASS view actions allowed (ec2)
+     view actions allowed (project stack): [["cloudformation:DescribeStacks","allowed"]]
+PASS view actions allowed (project stack)
+     object content not readable: [["s3:GetObject","implicitDeny"]]
+PASS object content not readable
+     bucket metadata allowed (project bucket): [["s3:GetBucketLocation","allowed"]]
+PASS bucket metadata allowed (project bucket)
+     bucket metadata denied (other bucket): [["s3:GetBucketLocation","implicitDeny"]]
+PASS bucket metadata denied (other bucket)
+     stack description denied (other stack): [["cloudformation:DescribeStacks","implicitDeny"]]
+PASS stack description denied (other stack)
+PASS static: read-only allowlist
+PASS wildcard statement is List/Describe only
