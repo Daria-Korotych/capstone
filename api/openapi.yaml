@@ -76,14 +76,18 @@ paths:
                 $ref: '#/components/schemas/TableDefinition'
         '404':
           $ref: '#/components/responses/NotFound'
-  /tables/{table}/items:
+  /tables/{table}/items/{pk}:
     parameters:
       - $ref: '#/components/parameters/Table'
+      - $ref: '#/components/parameters/PartitionKey'
+      - $ref: '#/components/parameters/SortKey'
     put:
       tags: [items]
       operationId: putItem
       summary: Create or replace an item (CREATE)
-      description: The body must contain the table's key attributes as strings.
+      description: >-
+        Stores the body as the item addressed by the path (pk, and sk if the table has a sort_key).
+        Key attributes in the body are optional; if present they must equal the path values, otherwise 400.
       requestBody:
         required: true
         content:
@@ -103,11 +107,6 @@ paths:
           $ref: '#/components/responses/BadGateway'
         '503':
           $ref: '#/components/responses/Unavailable'
-  /tables/{table}/items/{pk}:
-    parameters:
-      - $ref: '#/components/parameters/Table'
-      - $ref: '#/components/parameters/PartitionKey'
-      - $ref: '#/components/parameters/SortKey'
     get:
       tags: [items]
       operationId: getItem
@@ -293,7 +292,9 @@ components:
           description: Optional attribute name used as sort key.
     Item:
       type: object
-      description: Arbitrary attributes. The table's key attributes must be present and be strings.
+      description: >-
+        Arbitrary attributes. In responses the table's key attributes are present as strings.
+        In a PUT body they are optional and, if present, must equal the path values.
       additionalProperties: true
     Shard:
       type: object

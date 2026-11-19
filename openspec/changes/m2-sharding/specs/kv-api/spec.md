@@ -43,16 +43,16 @@ Coordinator SHALL створювати таблицю за `{name, partition_key
 - **THEN** відповідь 400 з тілом `{error}`
 
 ### Requirement: Items are created and replaced by PUT
-`PUT /tables/{table}/items` SHALL записувати об'єкт, що містить атрибути ключа як рядки, і повертати 201 для нового запису та 200 для заміни наявного; відсутній або не рядковий атрибут ключа — 400, невідома таблиця — 404.
+`PUT /tables/{table}/items/{pk}` (з `?sk=`, якщо таблиця має `sort_key`) SHALL зберігати тіло запиту як запис за ключем зі шляху і повертати 201 для нового запису та 200 для заміни наявного. Атрибути ключа в тілі необов'язкові; якщо вони є, то SHALL дорівнювати значенням зі шляху, інакше 400. Невідома таблиця — 404; `sk`, що не відповідає схемі таблиці, — 400.
 
 #### Scenario: New and replaced item
 - **GIVEN** таблиця `users` з ключем `id`
-- **WHEN** двічі надіслано `PUT` з `id=u1`
-- **THEN** перша відповідь 201, друга 200, а `GET` повертає другий варіант
+- **WHEN** двічі надіслано `PUT /tables/users/items/u1`
+- **THEN** перша відповідь 201, друга 200, а `GET` повертає другий варіант з `id=u1`
 
-#### Scenario: Missing key attribute
+#### Scenario: Body key differs from path
 - **GIVEN** таблиця `users` з ключем `id`
-- **WHEN** надіслано `PUT` без `id`, або з `id` не рядком
+- **WHEN** надіслано `PUT /tables/users/items/u1` з тілом `{"id": "u2"}`
 - **THEN** відповідь 400
 
 ### Requirement: Items are read, checked and deleted by key
