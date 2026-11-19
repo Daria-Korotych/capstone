@@ -8,7 +8,7 @@
 
 ## 2. ADR-0005…0009
 
-- [ ] 2.1 Написати `docs/adr/0005-api-protocol.md`, `0006-hash-function-and-vnodes.md`, `0007-partition-key-strategy.md`, `0008-instance-topology.md`, `0009-ci-cd.md` зі структурою Context / Options considered / Decision / Consequences; перевірка: `grep -L '## Options considered' docs/adr/*.md` порожній
+- [ ] 2.1 Написати `docs/adr/0005-api-protocol.md`, `0006-hash-function-and-vnodes.md`, `0007-partition-key-strategy.md`, `0008-compute-and-exposure.md`, `0009-ci-cd.md` зі структурою Context / Options considered / Decision / Consequences; перевірка: `grep -L '## Options considered' docs/adr/*.md` порожній
 - [ ] 2.2 Обрати кількість віртуальних вузлів одноразовим скриптом-експериментом поза репозиторієм (тільки stdlib, не в `src/kv/`), який після прогону видаляється; у репозиторій комітиться лише його вивід `docs/m2/evidence/ring/distribution.txt`; ADR-0006 пишеться з цього виводу до першого коду в `src/kv/`; перевірка: вивід містить розкид навантаження для щонайменше трьох значень, ADR-0006 на нього посилається
 
 ## 3. Coordinator і сховище (kv-api)
@@ -29,7 +29,7 @@
 - [ ] 5.1 Написати `Dockerfile` (один образ, ролі `coordinator` і `shard`); перевірка: обидві ролі стартують з одного образу
 - [ ] 5.2 Написати `infra/app.yaml` (стек `kv-app`); перевірка: `cfn-lint` без помилок, change set створено до деплою
 - [ ] 5.3 Налаштувати GitHub Actions: lint, тести, збірка образу в GHCR з тегом SHA, деплой стеку; перевірка: зелений прогін на коміті і `GET /health` після деплою
-- [ ] 5.4 [оператор] На початку кожної сесії пісочниці запустити `scripts/push-session-creds.sh` (секрети `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_SESSION_TOKEN`, ADR-0009)
+- [ ] 5.4 [оператор] На початку кожної сесії пісочниці запустити `scripts/push-session-creds.sh` (секрети `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_SESSION_TOKEN` і variable `OPERATOR_CIDR`, ADR-0009)
 
 ## 6. Бенчмарк (benchmark)
 

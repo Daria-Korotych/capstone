@@ -7,7 +7,7 @@
 ## ADDED Requirements
 
 ### Requirement: Application infrastructure is code
-Стек `kv-app` SHALL описувати три інстанси t3.micro (coordinator і два шарди) у підмережі `kv-dev-public-1` з публічними IP, імпортуючи мережу з експортів `kv-network`; Security Group шардів SHALL приймати трафік на порт 8081 тільки від Security Group coordinator, а coordinator — на порт 8080.
+Стек `kv-app` SHALL описувати три інстанси t3.micro (coordinator і два шарди) у підмережі `kv-dev-public-1` з публічними IP, імпортуючи мережу з експортів `kv-network`; Security Group шардів SHALL приймати трафік на порт 8081 тільки від Security Group coordinator.
 
 #### Scenario: Template passes lint
 - **GIVEN** `infra/app.yaml`
@@ -23,6 +23,19 @@
 - **GIVEN** задеплоєний стек
 - **WHEN** переглянуто теги ресурсів
 - **THEN** вони мають `Project=capstone-kv`, `Environment`, `Milestone=m2`, `Owner`
+
+### Requirement: Coordinator ingress is restricted
+Security Group coordinator SHALL приймати порт 8080 лише від Security Group шардів (реєстрація і heartbeat на приватну IP coordinator), з CIDR обов'язкового параметра `OperatorCidr` без значення за замовчуванням і з CIDR необов'язкового параметра `CiCidr`; порожній `CiCidr` не створює правила.
+
+#### Scenario: Shard heartbeat reaches the coordinator
+- **GIVEN** задеплоєний стек
+- **WHEN** шард шле `POST /shards` на приватну IP coordinator
+- **THEN** запит проходить, і шард з'являється в `GET /shards`
+
+#### Scenario: Unlisted address is rejected
+- **GIVEN** задеплоєний стек, `CiCidr` порожній
+- **WHEN** з адреси поза `OperatorCidr` звернутися до порту 8080 coordinator
+- **THEN** з'єднання не встановлюється
 
 ### Requirement: One image, two roles
 Збірка SHALL створювати один Docker-образ, що запускає coordinator або шард залежно від ролі в змінній середовища.
