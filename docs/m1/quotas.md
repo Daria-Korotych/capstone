@@ -1,6 +1,6 @@
 # Квоти
 
-Джерела: `scripts/quotas.sh` зберігає `aws service-quotas list-service-quotas` у `docs/evidence/quotas/{ec2,vpc,cloudformation}.json` (читання дозволене, відмов немає) і пробу типів інстансів у `docs/evidence/quotas/instance-types.txt`. Регіон `us-east-1`, роль `voclabs`. M2 = coordinator + 2 шарди = 3 інстанси найдешевшого дозволеного типу `t3.micro` (2 vCPU, ціна в [budget.md](budget.md)).
+Джерела: `scripts/m1/quotas.sh` зберігає `aws service-quotas list-service-quotas` у `docs/m1/evidence/quotas/{ec2,vpc,cloudformation}.json` (читання дозволене, відмов немає) і пробу типів інстансів у `docs/m1/evidence/quotas/instance-types.txt`. Регіон `us-east-1`, роль `voclabs`. M2 = coordinator + 2 шарди = 3 інстанси найдешевшого дозволеного типу `t3.micro` (2 vCPU, ціна в [budget.md](budget.md)).
 
 | Quota | Value | Source (CLI/sandbox) | Needed in M2 | Risk |
 |---|---|---|---|---|

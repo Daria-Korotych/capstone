@@ -23,7 +23,7 @@ Creates or updates the `kv-network` stack from `infra/network.yaml`, tagged `Pro
 
 ```sh
 scripts/verify-network.sh   # 11 checks, expect 11 PASS
-scripts/verify-iam.sh       # lints infra/iam.yaml and checks it against the IAM policy simulator, expect all PASS
+scripts/m1/verify-iam.sh       # lints infra/iam.yaml and checks it against the IAM policy simulator, expect all PASS
 ```
 
 ## Network
@@ -59,14 +59,14 @@ flowchart TB
 
 ## Access
 
-Read-only access is defined in `infra/iam.yaml`: the `ReadOnlyPolicy` policy and the `ReadOnlyRole` role, which the principal passed as the `TrustedPrincipalArn` parameter can assume. The sandbox deploy attempt passed `arn:aws:iam::<account>:root`, which means "the account": any principal in it whose own identity policy allows `sts:AssumeRole` on this role can take it; for "exactly one principal" pass a specific role ARN. A reviewer calls `sts:AssumeRole` and gets temporary credentials with view rights (network, project stacks, bucket metadata, alarms and the metric list, quotas) and no writes and no object contents; this beats a user group because the credentials expire instead of staying as permanent membership. The sandbox did not allow this stack to be created (`iam:CreatePolicy` is denied); details and the exact refusal text: [docs/labrole.md](docs/labrole.md#deploying-kv-iam).
+Read-only access is defined in `infra/iam.yaml`: the `ReadOnlyPolicy` policy and the `ReadOnlyRole` role, which the principal passed as the `TrustedPrincipalArn` parameter can assume. The sandbox deploy attempt passed `arn:aws:iam::<account>:root`, which means "the account": any principal in it whose own identity policy allows `sts:AssumeRole` on this role can take it; for "exactly one principal" pass a specific role ARN. A reviewer calls `sts:AssumeRole` and gets temporary credentials with view rights (network, project stacks, bucket metadata, alarms and the metric list, quotas) and no writes and no object contents; this beats a user group because the credentials expire instead of staying as permanent membership. The sandbox did not allow this stack to be created (`iam:CreatePolicy` is denied); details and the exact refusal text: [docs/m1/labrole.md](docs/m1/labrole.md#deploying-kv-iam).
 
 ## What changed in M1
 
 - Network stack `kv-network`: one VPC, two public and two private subnets, see [docs/network.md](docs/network.md) and [infra/network.yaml](infra/network.yaml).
-- Read-only IAM template [infra/iam.yaml](infra/iam.yaml); it cannot be deployed in the sandbox, see [docs/labrole.md](docs/labrole.md).
+- Read-only IAM template [infra/iam.yaml](infra/iam.yaml); it cannot be deployed in the sandbox, see [docs/m1/labrole.md](docs/m1/labrole.md).
 - Sandbox limits and facts (session length, credit ceiling, allowed regions): [docs/sandbox.md](docs/sandbox.md).
-- Quotas and the M2 budget estimate: [docs/quotas.md](docs/quotas.md), [docs/budget.md](docs/budget.md).
-- Recreatability proof (delete, create, verify; drift check): [docs/recreate-log.md](docs/recreate-log.md), raw output in [docs/evidence](docs/evidence).
+- Quotas and the M2 budget estimate: [docs/m1/quotas.md](docs/m1/quotas.md), [docs/m1/budget.md](docs/m1/budget.md).
+- Recreatability proof (delete, create, verify; drift check): [docs/m1/recreate-log.md](docs/m1/recreate-log.md), raw output in [docs/m1/evidence/recreate](docs/m1/evidence/recreate).
 - Architecture decisions: [ADR-0001 access control](docs/adr/0001-access-control-model.md), [ADR-0002 IaC tool](docs/adr/0002-iac-tool.md), [ADR-0003 stack layout](docs/adr/0003-stack-layout.md), [ADR-0004 CIDR scheme](docs/adr/0004-cidr-scheme.md).
-- OpenSpec change with proposal, design, specs and tasks: [openspec/changes/m1-infrastructure-setup](openspec/changes/m1-infrastructure-setup).
+- OpenSpec change with proposal, design, specs and tasks: [openspec/changes/archive/2026-11-13-m1-infrastructure-setup](openspec/changes/archive/2026-11-13-m1-infrastructure-setup).

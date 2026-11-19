@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
-DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 source "$DIR/env.sh"
 "$DIR/check-session.sh" >/dev/null
 
-OUT="$DIR/../docs/evidence/quotas"
+OUT="$DIR/../docs/m1/evidence/quotas"
 mkdir -p "$OUT"
 # Instance types M2 might use; each is probed with a dry-run that creates nothing.
 TYPES="t2.micro t3.micro t3.small t3.medium t2.medium m5.large c5.large"

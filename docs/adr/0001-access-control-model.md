@@ -8,7 +8,7 @@ Status: Accepted
 
 Вимога до моделі: principal одного tenant не читає й не пише дані іншого, і додавання tenant не змінює жодної policy. Створення бакета чи префікса для нового tenant — це автоматизований крок provisioning зі своїми дозволами, а не правка policy.
 
-Обмеження середовища: Sandbox Environment курсу AWS Academy, очікувано, не дозволяє створювати власні IAM role і policy (`design.md`, Context); підтвердження буде в `docs/labrole.md`. Тому в M1 модель тільки описується. Read-only роль з R2/R3 (`infra/iam.yaml`) — окреме питання: це роль оператора для перегляду ресурсів, а не доступ tenant до даних.
+Обмеження середовища: Sandbox Environment курсу AWS Academy, очікувано, не дозволяє створювати власні IAM role і policy (`design.md`, Context); підтвердження буде в `docs/m1/labrole.md`. Тому в M1 модель тільки описується. Read-only роль з R2/R3 (`infra/iam.yaml`) — окреме питання: це роль оператора для перегляду ресурсів, а не доступ tenant до даних.
 
 Варіанти взято з практики 2 (`Class activities/1 CA task.md`, завдання 1–3; конспект `Практика 2.md`, §8–10).
 
@@ -51,4 +51,4 @@ Coordinator — один сервіс для всіх tenant, тому тег в
 
 ## Amendment (after M1)
 
-M1 довів, що `iam:CreateRole` і `iam:CreatePolicy` у пісочниці заборонені ([docs/labrole.md](../labrole.md)). Тому IAM-ресурси лишаються поза `kv-app`: відмова одного IAM-ресурсу відкотила б увесь стек застосунку, і саме тому ADR-0003 виніс `kv-iam` в окремий стек. У пісочниці ізоляцію tenant забезпечує coordinator: один префікс на tenant плюс тести на cross-tenant доступ. ABAC лишається цільовою моделлю для звичайного акаунта.
+M1 довів, що `iam:CreateRole` і `iam:CreatePolicy` у пісочниці заборонені ([docs/m1/labrole.md](../m1/labrole.md)). Тому IAM-ресурси лишаються поза `kv-app`: відмова одного IAM-ресурсу відкотила б увесь стек застосунку, і саме тому ADR-0003 виніс `kv-iam` в окремий стек. У пісочниці ізоляцію tenant забезпечує coordinator: один префікс на tenant плюс тести на cross-tenant доступ. ABAC лишається цільовою моделлю для звичайного акаунта.

@@ -17,7 +17,7 @@ Pricing Calculator (режим 24/7): https://calculator.aws/#/estimate?id=74d7e
 
 ## Ціни
 
-Прайс-лист: Pricing API (`aws pricing get-products`) для ролі пісочниці заборонено SCP (`docs/evidence/quotas/pricing-denied.txt`). Ціни взято з публічних файлів прайс-листа AWS `https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/<offer>/current/us-east-1/index.json`, станом на 2026-11-12 (дата публікації файлу в дужках).
+Прайс-лист: Pricing API (`aws pricing get-products`) для ролі пісочниці заборонено SCP (`docs/m1/evidence/quotas/pricing-denied.txt`). Ціни взято з публічних файлів прайс-листа AWS `https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/<offer>/current/us-east-1/index.json`, станом на 2026-11-12 (дата публікації файлу в дужках).
 
 | Стаття | Ціна | Offer |
 |---|---|---|

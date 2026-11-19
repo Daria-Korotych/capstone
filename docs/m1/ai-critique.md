@@ -1,6 +1,6 @@
 # AI architecture critique (M1)
 
-Source: a separate AI session with read-only access to the repository, 2026-11-12. Input: `infra/network.yaml`, `infra/iam.yaml`, the four ADRs, `docs/budget.md`, `docs/labrole.md`, `docs/sandbox.md`, `scripts/deploy-network.sh`, `scripts/recreate.sh`. The transcript below is verbatim.
+Source: a separate AI session with read-only access to the repository, 2026-11-12. Input: `infra/network.yaml`, `infra/iam.yaml`, the four ADRs, `docs/m1/budget.md`, `docs/m1/labrole.md`, `docs/sandbox.md`, `scripts/deploy-network.sh`, `scripts/m1/recreate.sh`. The transcript below is verbatim.
 
 ## Transcript
 
@@ -9,14 +9,14 @@ Read both templates, the four ADRs, budget, labrole, sandbox docs and the deploy
   critique.
 
   Next action: add a free S3 gateway endpoint to the private route table in infra/network.yaml, then rewrite
-  docs/budget.md to include how M2 instances get egress and how clients reach the system. Without those two, M2
+  docs/m1/budget.md to include how M2 instances get egress and how clients reach the system. Without those two, M2
   can't be deployed or used, and the budget doesn't hold.
 
   Fix now, most serious first
 
   1. The private subnets are a dead end for M2 (blocker)
   - infra/network.yaml:119: private subnets have only the local route. There's no NAT and no endpoints.
-  - The budget (docs/budget.md) puts all 3 M2 instances in private subnets. Those instances can't install
+  - The budget (docs/m1/budget.md) puts all 3 M2 instances in private subnets. Those instances can't install
     packages or reach S3, which M3 needs for the replication log. They can't reach SSM either, and without SSM
     or a public IP nobody can get onto them to operate them.
   - You also can't create an instance profile (iam:CreateRole is denied), so SSM wouldn't work even with

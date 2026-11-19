@@ -14,13 +14,13 @@ static_readonly() { # policy file
                  and (test("^s3:(GetO|Get\\*$)") | not)))))' "$1" >/dev/null 2>&1
 }
 
-DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 source "$DIR/env.sh"
 "$DIR/check-session.sh" >/dev/null
 
 ROOT=$(dirname "$DIR")
 TEMPLATE=$ROOT/infra/iam.yaml
-EVIDENCE=$ROOT/docs/evidence/iam
+EVIDENCE=$ROOT/docs/m1/evidence/iam
 WRITE_ACTIONS="ec2:CreateVpc s3:PutObject iam:CreateRole cloudformation:DeleteStack"
 VIEW_ACTIONS="ec2:DescribeVpcs cloudformation:DescribeStacks"
 FAILED=0
