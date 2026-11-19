@@ -1,0 +1,19 @@
+$ before: instance
+i-0732b32b05a8f07d6
+$ deploy Tag=two
+
+Waiting for changeset to be created..
+Waiting for stack create/update to complete
+Successfully created/updated stack - kv-probe
+$ after: instance
+i-0a80c97913f63dee5
+$ events
+2026-11-19T22:44:09.021000+00:00	DELETE_COMPLETE	i-0732b32b05a8f07d6	None
+2026-11-19T22:43:26.115000+00:00	DELETE_IN_PROGRESS	i-0732b32b05a8f07d6	None
+2026-11-19T22:43:24.522000+00:00	UPDATE_COMPLETE	i-0a80c97913f63dee5	None
+2026-11-19T22:43:11.962000+00:00	UPDATE_IN_PROGRESS	i-0a80c97913f63dee5	Resource creation Initiated
+2026-11-19T22:43:09.642000+00:00	UPDATE_IN_PROGRESS	i-0732b32b05a8f07d6	Requested update requires the creation of a new physical resource; hence creating one.
+2026-11-19T22:40:55.219000+00:00	CREATE_COMPLETE	i-0732b32b05a8f07d6	None
+2026-11-19T22:40:54.955000+00:00	CREATE_IN_PROGRESS	i-0732b32b05a8f07d6	Eventual consistency check initiated
+2026-11-19T22:40:43.062000+00:00	CREATE_IN_PROGRESS	i-0732b32b05a8f07d6	Resource creation Initiated
+2026-11-19T22:40:40.517000+00:00	CREATE_IN_PROGRESS		None

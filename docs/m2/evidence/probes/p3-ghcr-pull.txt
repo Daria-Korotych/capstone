@@ -1,0 +1,16 @@
+$ aws ec2 get-console-output --latest | grep -E "TAG=|GHCR|pull|Digest|Status"
+2026/11/19 22:40:52Z: SSM Agent unable to acquire credentials: <error>no valid credentials could be retrieved for ec2 identity. Default Host Management Err: error calling RequestManagedInstanceRoleToken: operation error SSM: RequestManagedInstanceRoleToken, https response error StatusCode: 400, RequestID: 515ab611-a9e8-4e98-925c-c813ba2d92fe, api error AccessDeniedException: Systems Manager's instance management role is not configured for account: <acct></error>
+TAG=one
+[    7.097206] cloud-init[1952]: TAG=one
+latest: Pulling from astral-sh/uv
+[   72.707872] cloud-init[1952]: latest: Pulling from astral-sh/uv
+6194b0176b30: Pulling fs layer
+[   72.778737] cloud-init[1952]: 6194b0176b30: Pulling fs layer
+738af053281f: Pulling fs layer
+[   72.779609] cloud-init[1952]: 738af053281f: Pulling fs layer
+Digest: sha256:d3b601f0c7b118bc1753febf7c41cc80981df678445e0254284eecf84db79a7d
+[   74.324883] cloud-init[1952]: Digest: sha256:d3b601f0c7b118bc1753febf7c41cc80981df678445e0254284eecf84db79a7d
+Status: Downloaded newer image for ghcr.io/astral-sh/uv:latest
+[   74.334519] cloud-init[1952]: Status: Downloaded newer image for ghcr.io/astral-sh/uv:latest
+GHCR_PULL_OK
+[   74.349491] cloud-init[1952]: GHCR_PULL_OK
