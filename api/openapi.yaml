@@ -1,0 +1,341 @@
+openapi: 3.1.0
+info:
+  title: kv-store coordinator API
+  version: 0.1.0
+  description: >-
+    Coordinator API of a light DynamoDB-like key-value store (milestone 2).
+    Tables have a partition key and an optional sort key. Key values are strings.
+    Out of scope: replication, retries, rebalancing, authentication, scans by sort key range.
+servers:
+  - url: http://localhost:8080
+    description: Coordinator
+tags:
+  - name: tables
+  - name: items
+  - name: shards
+  - name: health
+paths:
+  /tables:
+    post:
+      tags: [tables]
+      operationId: createTable
+      summary: Register a table definition
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TableDefinition'
+      responses:
+        '201':
+          description: Table created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TableDefinition'
+        '200':
+          description: Identical table already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TableDefinition'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          description: Table exists with different keys
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    get:
+      tags: [tables]
+      operationId: listTables
+      summary: List tables
+      responses:
+        '200':
+          description: All tables
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TableDefinition'
+  /tables/{table}:
+    parameters:
+      - $ref: '#/components/parameters/Table'
+    get:
+      tags: [tables]
+      operationId: getTable
+      summary: Get a table definition
+      responses:
+        '200':
+          description: Table definition
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TableDefinition'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /tables/{table}/items:
+    parameters:
+      - $ref: '#/components/parameters/Table'
+    put:
+      tags: [items]
+      operationId: putItem
+      summary: Create or replace an item (CREATE)
+      description: The body must contain the table's key attributes as strings.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        '201':
+          description: New item stored
+        '200':
+          description: Existing item replaced
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '502':
+          $ref: '#/components/responses/BadGateway'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /tables/{table}/items/{pk}:
+    parameters:
+      - $ref: '#/components/parameters/Table'
+      - $ref: '#/components/parameters/PartitionKey'
+      - $ref: '#/components/parameters/SortKey'
+    get:
+      tags: [items]
+      operationId: getItem
+      summary: Read an item (READ)
+      responses:
+        '200':
+          description: The item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '502':
+          $ref: '#/components/responses/BadGateway'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+    head:
+      tags: [items]
+      operationId: itemExists
+      summary: Check that an item exists (EXISTS)
+      responses:
+        '200':
+          description: Item exists
+        '400':
+          description: sk does not match the table definition
+        '404':
+          description: Table or item not found
+        '502':
+          description: A shard is unreachable
+        '503':
+          description: No shard available
+    delete:
+      tags: [items]
+      operationId: deleteItem
+      summary: Delete an item (DELETE, idempotent)
+      responses:
+        '204':
+          description: Item deleted or it did not exist
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '502':
+          $ref: '#/components/responses/BadGateway'
+        '503':
+          $ref: '#/components/responses/Unavailable'
+  /shards:
+    post:
+      tags: [shards]
+      operationId: registerShard
+      summary: Register a shard (also used as heartbeat)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Shard'
+      responses:
+        '201':
+          description: New shard registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Shard'
+        '200':
+          description: Same shard re-registered or its url updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Shard'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+    get:
+      tags: [shards]
+      operationId: listShards
+      summary: List registered shards
+      responses:
+        '200':
+          description: Registered shards
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Shard'
+  /shards/{id}:
+    delete:
+      tags: [shards]
+      operationId: deleteShard
+      summary: Remove a shard from the ring
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            minLength: 1
+      responses:
+        '204':
+          description: Shard removed
+  /health:
+    get:
+      tags: [health]
+      operationId: getHealth
+      summary: Coordinator health
+      responses:
+        '200':
+          description: Coordinator is up
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+components:
+  parameters:
+    Table:
+      name: table
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/TableName'
+    PartitionKey:
+      name: pk
+      in: path
+      required: true
+      description: Partition key value.
+      schema:
+        type: string
+        minLength: 1
+    SortKey:
+      name: sk
+      in: query
+      required: false
+      description: Sort key value. Required if and only if the table defines a sort_key.
+      schema:
+        type: string
+        minLength: 1
+  responses:
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Table or item not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadGateway:
+      description: The shard owning the key is unreachable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ShardError'
+    Unavailable:
+      description: No shard available
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    TableName:
+      type: string
+      pattern: '^[A-Za-z0-9_-]{1,64}$'
+    TableDefinition:
+      type: object
+      required: [name, partition_key]
+      additionalProperties: false
+      properties:
+        name:
+          $ref: '#/components/schemas/TableName'
+        partition_key:
+          type: string
+          minLength: 1
+          description: Attribute name used as partition key.
+        sort_key:
+          type: string
+          minLength: 1
+          description: Optional attribute name used as sort key.
+    Item:
+      type: object
+      description: Arbitrary attributes. The table's key attributes must be present and be strings.
+      additionalProperties: true
+    Shard:
+      type: object
+      required: [id, url]
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          minLength: 1
+        url:
+          type: string
+          format: uri
+    Health:
+      type: object
+      required: [status, mode, shards]
+      properties:
+        status:
+          type: string
+          examples: [ok]
+        mode:
+          type: string
+          enum: [single, sharded]
+        shards:
+          type: integer
+          minimum: 0
+          description: Number of registered shards.
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+        detail:
+          type: string
+    ShardError:
+      type: object
+      required: [error, shard]
+      properties:
+        error:
+          type: string
+        detail:
+          type: string
+        shard:
+          type: string
+          description: Id of the unreachable shard.
