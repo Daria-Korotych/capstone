@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 source "$DIR/env.sh"
 
 [ $# -ge 1 ] && [ -n "$1" ] || { echo "Usage: $0 <Owner>" >&2; exit 1; }

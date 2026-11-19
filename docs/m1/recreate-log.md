@@ -2,7 +2,7 @@
 
 ## Перестворення (delete, потім create)
 
-Скрипт `scripts/recreate.sh korotych`, повний вивід у [run-20261112T183712Z.txt](evidence/recreate/run-20261112T183712Z.txt).
+Скрипт `scripts/m1/recreate.sh korotych`, повний вивід у [run-20261112T183712Z.txt](evidence/recreate/run-20261112T183712Z.txt).
 
 | Фаза | Початок (UTC) | Тривалість |
 |---|---|---|

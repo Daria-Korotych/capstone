@@ -1,6 +1,6 @@
 «LabRole» у завданні — умовна назва: у цій пісочниці такої ролі немає (`iam get-role --role-name LabRole` повертає `NoSuchEntity`), фактична роль сесії — `voclabs` (акаунт 804122474090).
 
-Сесійне ім'я та UserId містять e-mail студента й скрізь замінені на `<session>`. Усі файли доказів — у `docs/evidence/labrole/`, генерує їх `scripts/labrole-dissect.sh` (повторний запуск перезаписує файли).
+Сесійне ім'я та UserId містять e-mail студента й скрізь замінені на `<session>`. Усі файли доказів — у `docs/m1/evidence/labrole/`, генерує їх `scripts/m1/labrole-dissect.sh` (повторний запуск перезаписує файли).
 
 ## Підсумок
 
@@ -17,11 +17,11 @@
 | `iam:CreateGroup` | Denied (no allow) | `voclabs-iam-create-group.txt` | CLI |
 | `iam:CreatePolicy` | Denied (no allow) | `voclabs-iam-create-policy.txt` | CLI |
 | `iam:CreateRole` | Denied (no allow); simulator: `implicitDeny` | `voclabs-iam-create-role.txt`, `voclabs-iam-simulate-principal-policy.txt` | CLI, simulator |
-| `ec2:RunInstances` | Allowed для перевірених t2.micro, t2.medium, t3.micro, t3.small, t3.medium; m5.large і c5.large відхилені з explicit deny в identity-based policy (симулятор показав `allowed`, бо працював без контексту типу інстанса) | `docs/evidence/quotas/instance-types.txt` | CLI (dry-run) |
+| `ec2:RunInstances` | Allowed для перевірених t2.micro, t2.medium, t3.micro, t3.small, t3.medium; m5.large і c5.large відхилені з explicit deny в identity-based policy (симулятор показав `allowed`, бо працював без контексту типу інстанса) | `docs/m1/evidence/quotas/instance-types.txt` | CLI (dry-run) |
 | `ec2:CreateVpc` | Allowed | `docs/evidence/network/verify-*.txt` | CLI (deploy `kv-network`) |
 | `s3:CreateBucket` | Allowed (simulator, unverified) | `voclabs-iam-simulate-principal-policy.txt` | simulator |
 | `cloudformation:CreateStack` | Allowed | `docs/evidence/network/verify-*.txt` | CLI (deploy `kv-network`) |
-| `pricing:GetProducts` | Denied (explicit deny in a service control policy) | `docs/evidence/quotas/pricing-denied.txt` | CLI |
+| `pricing:GetProducts` | Denied (explicit deny in a service control policy) | `docs/m1/evidence/quotas/pricing-denied.txt` | CLI |
 
 Жодна `create-*` проба (`kv-probe-user`, `kv-probe-group`, `kv-probe-policy`, `kv-probe-role`) не вдалася, тому нічого видаляти не довелося і ресурсів не створено.
 
@@ -60,15 +60,15 @@
 
 - `iam:GetRole`: `Access denied to iam:GetRole. User: arn:aws:sts::804122474090:assumed-role/voclabs/<session>. Action: iam:GetRole. Context: an identity-based policy explicitly denies the action.` Збігається з CLI (`voclabs-iam-get-role.txt`).
 - `iam:CreateUser`: `User was not created. User: arn:aws:sts::804122474090:assumed-role/voclabs/<session> is not authorized to perform: iam:CreateUser on resource: arn:aws:iam::804122474090:user/kv-probe-console because no identity-based policy allows the iam:CreateUser action.` Збігається з CLI (`voclabs-iam-create-user.txt`).
-- Policy Simulator: `You don't have enough permissions to use the IAM Policy Simulator.` Консольний симулятор не запустився (ймовірна причина — явна заборона `iam:GetRole`/`iam:GetRolePolicy`, через яку він не може прочитати політики ролі; точну дію консоль не називає), тоді як CLI `simulate-principal-policy` відпрацював. На панелі симулятора для ролі `voclabs` позначено «AWS Organizations SCPs» — акаунт пісочниці входить до організації з SCP, тому результати CLI-симулятора лишаються непідтвердженими до реального виклику. Пряме підтвердження SCP — `docs/evidence/quotas/pricing-denied.txt`: `pricing:GetProducts` відхилено з фразою `with an explicit deny in a service control policy`.
+- Policy Simulator: `You don't have enough permissions to use the IAM Policy Simulator.` Консольний симулятор не запустився (ймовірна причина — явна заборона `iam:GetRole`/`iam:GetRolePolicy`, через яку він не може прочитати політики ролі; точну дію консоль не називає), тоді як CLI `simulate-principal-policy` відпрацював. На панелі симулятора для ролі `voclabs` позначено «AWS Organizations SCPs» — акаунт пісочниці входить до організації з SCP, тому результати CLI-симулятора лишаються непідтвердженими до реального виклику. Пряме підтвердження SCP — `docs/m1/evidence/quotas/pricing-denied.txt`: `pricing:GetProducts` відхилено з фразою `with an explicit deny in a service control policy`.
 
 ## Deploying kv-iam
 
-Шаблон `infra/iam.yaml` описує `ReadOnlyPolicy` (керована політика тільки для перегляду) і `ReadOnlyRole` (роль, яку може взяти principal із параметра `TrustedPrincipalArn`). Статична й симуляторна перевірка шаблону — `scripts/verify-iam.sh` (усі перевірки `PASS`, вивід у `docs/evidence/iam/verify-*.txt`). Стек `kv-iam` у пісочниці **не задеплоєно**: спроба розгортання впала, стек видалено.
+Шаблон `infra/iam.yaml` описує `ReadOnlyPolicy` (керована політика тільки для перегляду) і `ReadOnlyRole` (роль, яку може взяти principal із параметра `TrustedPrincipalArn`). Статична й симуляторна перевірка шаблону — `scripts/m1/verify-iam.sh` (усі перевірки `PASS`, вивід у `docs/m1/evidence/iam/verify-*.txt`). Стек `kv-iam` у пісочниці **не задеплоєно**: спроба розгортання впала, стек видалено.
 
 Спроба розгортання передала `arn:aws:iam::<account>:root`: це означає «акаунт», тож роль може взяти будь-який principal цього акаунта, чия власна identity policy дозволяє `sts:AssumeRole` на цю роль; для «рівно одного principal» треба передати ARN конкретної ролі.
 
-Команда: `aws cloudformation deploy --stack-name kv-iam --template-file infra/iam.yaml --parameter-overrides TrustedPrincipalArn=arn:aws:iam::804122474090:root Owner=korotych --capabilities CAPABILITY_NAMED_IAM`. Події стеку — `docs/evidence/iam/deploy-attempt.json`.
+Команда: `aws cloudformation deploy --stack-name kv-iam --template-file infra/iam.yaml --parameter-overrides TrustedPrincipalArn=arn:aws:iam::804122474090:root Owner=korotych --capabilities CAPABILITY_NAMED_IAM`. Події стеку — `docs/m1/evidence/iam/deploy-attempt.json`.
 
 Ресурс `ReadOnlyPolicy` отримав `CREATE_FAILED`, стек відкотився (`ROLLBACK_COMPLETE`). Точний `ResourceStatusReason` (сесійне ім'я замінено на `<session>`):
 

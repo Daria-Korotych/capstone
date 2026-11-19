@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # Usage: labrole-dissect.sh [role-name]  (default: role of the current session)
 set -euo pipefail
-DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 source "$DIR/env.sh"
 
 ROLE=${1:-$("$DIR/check-session.sh")}
-OUT="$DIR/../docs/evidence/labrole"
+OUT="$DIR/../docs/m1/evidence/labrole"
 mkdir -p "$OUT"
 
 # Session name and UserId carry the student's e-mail: redact before writing.

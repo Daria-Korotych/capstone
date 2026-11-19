@@ -22,10 +22,10 @@
 
 ## 5. Розбір ролі сесії (access-control, R1)
 
-- [x] 5.1 Написати й запустити `scripts/labrole-dissect.sh`; перевірка: exit 0, у `docs/evidence/labrole/` ≥ 9 файлів з префіксом ролі сесії
+- [x] 5.1 Написати й запустити `scripts/m1/labrole-dissect.sh`; перевірка: exit 0, у `docs/m1/evidence/labrole/` ≥ 9 файлів з префіксом ролі сесії
 - [x] 5.2 Перевірити `aws iam get-role --role-name LabRole`; якщо роль існує і відрізняється — розібрати окремо, якщо `get-role` заборонений — записати як факт
 - [x] 5.3 Видалити будь-який `kv-probe-*` ресурс, створення якого вдалося, і позначити дію як allowed
-- [x] 5.4 Написати `docs/labrole.md`: фактична роль, таблиця, точний текст кожної відмови і її причина; перевірка: кожен рядок має evidence-файл і спосіб перевірки
+- [x] 5.4 Написати `docs/m1/labrole.md`: фактична роль, таблиця, точний текст кожної відмови і її причина; перевірка: кожен рядок має evidence-файл і спосіб перевірки
 - [x] 5.5 [оператор] Повторити 2–3 перевірки в консолі і додати рядки з `How found = console`
 
 ## 6. Мережевий стек (network, R4)
@@ -42,31 +42,31 @@
 
 ## 8. IAM-шаблон (access-control, R2, R3)
 
-- [x] 8.1 Написати `scripts/verify-iam.sh`; перевірка: до шаблону FAIL
+- [x] 8.1 Написати `scripts/m1/verify-iam.sh`; перевірка: до шаблону FAIL
 - [x] 8.2 Написати `infra/iam.yaml`; перевірка: `verify-iam.sh` усі PASS (або SKIP симулятора + статична перевірка PASS)
-- [x] 8.3 Спробувати задеплоїти `kv-iam`, зберегти події стеку в `docs/evidence/iam/deploy-attempt.json`, видалити стек; перевірка: `describe-stacks --stack-name kv-iam` не знаходить стек
-- [x] 8.4 Дописати в `docs/labrole.md` секцію `## Deploying kv-iam`: точний `ResourceStatusReason`, обмеження ролі, що його спричинило, і роль у звичайному акаунті
+- [x] 8.3 Спробувати задеплоїти `kv-iam`, зберегти події стеку в `docs/m1/evidence/iam/deploy-attempt.json`, видалити стек; перевірка: `describe-stacks --stack-name kv-iam` не знаходить стек
+- [x] 8.4 Дописати в `docs/m1/labrole.md` секцію `## Deploying kv-iam`: точний `ResourceStatusReason`, обмеження ролі, що його спричинило, і роль у звичайному акаунті
 
 ## 9. Квоти і бюджет (capacity-and-cost, R5, R6)
 
-- [x] 9.1 Написати й запустити `scripts/quotas.sh`; перевірка: 3 файли в `docs/evidence/quotas/`
+- [x] 9.1 Написати й запустити `scripts/m1/quotas.sh`; перевірка: 3 файли в `docs/m1/evidence/quotas/`
 - [x] 9.2 [оператор] Якщо пісочниця не називає дозволені типи інстансів — перевірити в консолі EC2
-- [x] 9.3 Написати `docs/quotas.md` з колонками `Quota | Value | Source | Needed in M2 | Risk`; перевірка: є всі 7 рядків зі спеки
+- [x] 9.3 Написати `docs/m1/quotas.md` з колонками `Quota | Value | Source | Needed in M2 | Risk`; перевірка: є всі 7 рядків зі спеки
 - [x] 9.4 [оператор] Оцінка в AWS Pricing Calculator для двох режимів, share-лінк
-- [x] 9.5 Написати `docs/budget.md`; перевірка: є обидва режими, кожен порівняний з кредитною стелею, різниця, що урізати першим, і явний список припущень (години сесій, EBS, transfer, метрики)
+- [x] 9.5 Написати `docs/m1/budget.md`; перевірка: є обидва режими, кожен порівняний з кредитною стелею, різниця, що урізати першим, і явний список припущень (години сесій, EBS, transfer, метрики)
 
 ## 10. Відтворюваність, change set, drift (recreatability, R7)
 
 - [x] 10.1 Change set на правці default `Environment`; перевірка: `describe-change-set` збережено, change set видалено, правку відкочено
 - [x] 10.2 [оператор] Вручну змінити тег `Owner` на VPC; запустити drift detection; перевірка: VPC `MODIFIED`, вивід збережено
 - [x] 10.3 Повернути тег вручну (консоль або `aws ec2 create-tags`) і повторити drift detection; перевірка: стек `IN_SYNC`, вивід збережено
-- [x] 10.4 Написати й запустити `scripts/recreate.sh` (tagging-запит повторюється з паузою перед FAIL); перевірка: tagging API порожній після delete, `verify-network.sh` 11×PASS після create
-- [x] 10.5 Написати `docs/recreate-log.md`: час delete і create, що зламалось і як виправлено, висновки по change set і drift з посиланнями на evidence
+- [x] 10.4 Написати й запустити `scripts/m1/recreate.sh` (tagging-запит повторюється з паузою перед FAIL); перевірка: tagging API порожній після delete, `verify-network.sh` 11×PASS після create
+- [x] 10.5 Написати `docs/m1/recreate-log.md`: час delete і create, що зламалось і як виправлено, висновки по change set і drift з посиланнями на evidence
 
 ## 11. README, AI-критика, підготовка до захисту
 
 - [x] 11.1 README: Prerequisites, Bring it up, Verify, Network, What changed in M1, посилання на ADR, цей change і `docs/*.md`, пояснення ролі проти групи; перевірка: у чистому клоні кроки README дослівно дають `verify-network.sh` 11×PASS
-- [x] 11.2 [оператор] AI-критика архітектури в новій сесії, транскрипт у `docs/ai-critique.md` з прийнятими і спростованими пунктами
+- [x] 11.2 [оператор] AI-критика архітектури в новій сесії, транскрипт у `docs/m1/ai-critique.md` з прийнятими і спростованими пунктами
 - [ ] 11.3 [оператор] Пройти 9 контрольних питань M1 вголос без нотаток
 
 ## Workflow follow-up
