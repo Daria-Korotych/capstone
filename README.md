@@ -6,7 +6,7 @@ A light DynamoDB-like key-value store capstone for Cloud Architectures 2026/27. 
 
 1. AWS Academy: Cloud Architecting course, Sandbox Environment. Click Start Lab, open AWS Details, copy the AWS CLI block and paste the block into `~/.aws/credentials`. The credentials rotate every session; never commit them.
 2. AWS CLI v2 and `jq` on the PATH.
-3. Python virtualenv with the template tools: `python3 -m venv .venv && .venv/bin/pip install cfn-lint cfn-flip`. Run it in the repository root; the scripts call `.venv/bin/cfn-lint` and `.venv/bin/cfn-flip` directly.
+3. Python virtualenv with the template tools: `python3.12 -m venv .venv && .venv/bin/pip install -e '.[dev]'`. Run it in the repository root. Python 3.12 is required (macOS ships an older python3). The scripts call `.venv/bin/cfn-lint` and `.venv/bin/cfn-flip` directly.
 4. Region is `us-east-1`, set in `scripts/env.sh`; the scripts need no other configuration.
 
 A sandbox session lasts 3 hours, and project resources do not survive the end of a session: after End Lab and a new Start Lab, `kv-network` was gone (`docs/sandbox.md`, run 2026-11-12T20:25:23Z). Run the deploy below at the start of every session.
