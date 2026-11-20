@@ -2,6 +2,8 @@
 
 Status: Accepted
 
+Amended by [ADR-0008](0008-compute-and-exposure.md): у M2 інстанси стоять у public підмережі `kv-dev-public-1`, а private підмережі лишаються порожніми; NAT і далі немає.
+
 ## Context
 
 M1 потрібна VPC з public і private підмережами. M2 ставить у неї coordinator і 2 шарди. У M3 кожен шард отримає 3+ replicas у різних AZ, тобто щонайменше 2 × 3 + 1 = 7 вузлів.

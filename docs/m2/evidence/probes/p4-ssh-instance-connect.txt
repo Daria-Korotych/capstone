@@ -1,0 +1,9 @@
+$ aws ec2-instance-connect send-ssh-public-key --instance-id <id> --instance-os-user ec2-user --ssh-public-key file://probe_key.pub
+{
+    "RequestId": "39189fb0-6312-4045-bcf0-cdd49b907dfb",
+    "Success": true
+}
+$ ssh -i probe_key ec2-user@<ip> true
+Warning: Permanently added '184.192.104.88' (ED25519) to the list of known hosts.
+remote-ok
+exit=0

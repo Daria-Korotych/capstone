@@ -6,7 +6,7 @@ A light DynamoDB-like key-value store capstone for Cloud Architectures 2026/27. 
 
 1. AWS Academy: Cloud Architecting course, Sandbox Environment. Click Start Lab, open AWS Details, copy the AWS CLI block and paste the block into `~/.aws/credentials`. The credentials rotate every session; never commit them.
 2. AWS CLI v2 and `jq` on the PATH.
-3. Python virtualenv with the template tools: `python3 -m venv .venv && .venv/bin/pip install cfn-lint cfn-flip`. Run it in the repository root; the scripts call `.venv/bin/cfn-lint` and `.venv/bin/cfn-flip` directly.
+3. Python virtualenv with the template tools: `python3.12 -m venv .venv && .venv/bin/pip install -e '.[dev]'`. Run it in the repository root. Python 3.12 is required (macOS ships an older python3). The scripts call `.venv/bin/cfn-lint` and `.venv/bin/cfn-flip` directly.
 4. Region is `us-east-1`, set in `scripts/env.sh`; the scripts need no other configuration.
 
 A sandbox session lasts 3 hours, and project resources do not survive the end of a session: after End Lab and a new Start Lab, `kv-network` was gone (`docs/sandbox.md`, run 2026-11-12T20:25:23Z). Run the deploy below at the start of every session.
@@ -60,6 +60,10 @@ flowchart TB
 ## Access
 
 Read-only access is defined in `infra/iam.yaml`: the `ReadOnlyPolicy` policy and the `ReadOnlyRole` role, which the principal passed as the `TrustedPrincipalArn` parameter can assume. The sandbox deploy attempt passed `arn:aws:iam::<account>:root`, which means "the account": any principal in it whose own identity policy allows `sts:AssumeRole` on this role can take it; for "exactly one principal" pass a specific role ARN. A reviewer calls `sts:AssumeRole` and gets temporary credentials with view rights (network, project stacks, bucket metadata, alarms and the metric list, quotas) and no writes and no object contents; this beats a user group because the credentials expire instead of staying as permanent membership. The sandbox did not allow this stack to be created (`iam:CreatePolicy` is denied); details and the exact refusal text: [docs/m1/labrole.md](docs/m1/labrole.md#deploying-kv-iam).
+
+## CI
+
+`.github/workflows/ci.yml` runs ruff, pytest, cfn-lint, OpenAPI and OpenSpec validation, then builds the image and pushes `ghcr.io/daria-korotych/capstone:<sha>` on `main` or manual run. After the first push, make the package public once: GitHub → Packages → capstone → Package settings → Change visibility.
 
 ## What changed in M1
 
