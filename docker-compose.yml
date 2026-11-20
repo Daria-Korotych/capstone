@@ -1,0 +1,36 @@
+x-shard: &shard
+  build: .
+  environment: &shard-env
+    KV_ROLE: shard
+    KV_PORT: "8081"
+    KV_COORDINATOR_URL: http://coordinator:8080
+  depends_on:
+    - coordinator
+
+services:
+  coordinator:
+    build: .
+    environment:
+      KV_ROLE: coordinator
+      KV_MODE: sharded
+    ports:
+      - "8080:8080"
+    volumes:
+      - catalog:/data
+
+  shard-1:
+    <<: *shard
+    environment:
+      <<: *shard-env
+      KV_SHARD_ID: shard-1
+      KV_ADVERTISE_URL: http://shard-1:8081
+
+  shard-2:
+    <<: *shard
+    environment:
+      <<: *shard-env
+      KV_SHARD_ID: shard-2
+      KV_ADVERTISE_URL: http://shard-2:8081
+
+volumes:
+  catalog:
