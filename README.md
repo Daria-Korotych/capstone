@@ -61,6 +61,10 @@ flowchart TB
 
 Read-only access is defined in `infra/iam.yaml`: the `ReadOnlyPolicy` policy and the `ReadOnlyRole` role, which the principal passed as the `TrustedPrincipalArn` parameter can assume. The sandbox deploy attempt passed `arn:aws:iam::<account>:root`, which means "the account": any principal in it whose own identity policy allows `sts:AssumeRole` on this role can take it; for "exactly one principal" pass a specific role ARN. A reviewer calls `sts:AssumeRole` and gets temporary credentials with view rights (network, project stacks, bucket metadata, alarms and the metric list, quotas) and no writes and no object contents; this beats a user group because the credentials expire instead of staying as permanent membership. The sandbox did not allow this stack to be created (`iam:CreatePolicy` is denied); details and the exact refusal text: [docs/m1/labrole.md](docs/m1/labrole.md#deploying-kv-iam).
 
+## CI
+
+`.github/workflows/ci.yml` runs ruff, pytest, cfn-lint, OpenAPI and OpenSpec validation, then builds the image and pushes `ghcr.io/daria-korotych/capstone:<sha>` on `main` or manual run. After the first push, make the package public once: GitHub → Packages → capstone → Package settings → Change visibility.
+
 ## What changed in M1
 
 - Network stack `kv-network`: one VPC, two public and two private subnets, see [docs/network.md](docs/network.md) and [infra/network.yaml](infra/network.yaml).
