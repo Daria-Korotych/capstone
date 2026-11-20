@@ -124,12 +124,6 @@ def test_health(client):
     assert client.get("/health").json() == {"status": "ok", "mode": SINGLE_MODE, "shards": 0}
 
 
-def test_sharded_mode_requires_injected_backend(tmp_path):
-    settings = Settings(role="coordinator", mode="sharded", catalog_path=tmp_path / CATALOG_FILE)
-    with pytest.raises(ValueError):
-        create_coordinator_app(settings)
-
-
 def test_empty_pk_400(client):
     assert client.put(EMPTY_PK_URL, json=ITEM_BODY).status_code == 400
     assert client.get(EMPTY_PK_URL).status_code == 400

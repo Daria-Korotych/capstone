@@ -1,5 +1,7 @@
+from contextlib import asynccontextmanager
 from urllib.parse import urlparse
 
+import httpx
 from fastapi import FastAPI, Request, Response
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
@@ -9,6 +11,7 @@ from kv.coordinator.catalog import Catalog, TableConflict
 from kv.coordinator.errors import ApiError
 from kv.coordinator.models import ShardDef, TableDef
 from kv.coordinator.registry import ShardRegistry
+from kv.coordinator.sharded import ShardedBackend
 from kv.ring import HashRing
 from kv.settings import Settings
 
@@ -23,15 +26,29 @@ def create_coordinator_app(
     backend: Backend | None = None,
     registry: ShardRegistry | None = None,
 ) -> FastAPI:
-    if backend is None:
-        if settings.mode == "sharded":
-            raise ValueError("sharded mode requires an injected backend")
-        backend = LocalBackend()
     catalog = Catalog(settings.catalog_path)
     if registry is None:
         registry = ShardRegistry(HashRing(settings.vnodes))
-    app = FastAPI()
-    app.state.registry = registry  # Task 8 routes keys through this
+    shard_client: httpx.AsyncClient | None = None
+    if backend is None:
+        if settings.mode == "sharded":
+            timeout = httpx.Timeout(
+                settings.read_timeout_s,
+                connect=settings.connect_timeout_s,
+            )
+            shard_client = httpx.AsyncClient(timeout=timeout)
+            backend = ShardedBackend(registry, shard_client)
+        else:
+            backend = LocalBackend()
+
+    @asynccontextmanager
+    async def lifespan(_: FastAPI):
+        yield
+        if shard_client is not None:
+            await shard_client.aclose()
+
+    app = FastAPI(lifespan=lifespan)
+    app.state.registry = registry
 
     @app.exception_handler(ApiError)
     async def api_error(_: Request, exc: ApiError):
