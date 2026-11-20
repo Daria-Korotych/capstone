@@ -15,3 +15,8 @@ class TableDef(BaseModel):
         if self.sort_key == self.partition_key:
             raise ValueError("sort_key must differ from partition_key")
         return self
+
+
+class ShardDef(BaseModel):
+    id: str
+    url: str

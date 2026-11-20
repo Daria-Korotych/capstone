@@ -32,6 +32,4 @@ def test_openapi_matches_contract(tmp_path):
         and not r.path.startswith("/docs/")
     }
     contract = operations(yaml.safe_load(CONTRACT.read_text())["paths"])
-    assert implemented <= contract
-    # Task 7 adds the /shards operations.
-    assert {op for op in contract if not op[0].startswith("/shards")} <= implemented
+    assert implemented == contract

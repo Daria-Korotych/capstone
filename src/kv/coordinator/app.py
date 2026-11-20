@@ -1,3 +1,5 @@
+from urllib.parse import urlparse
+
 from fastapi import FastAPI, Request, Response
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
@@ -5,19 +7,31 @@ from fastapi.responses import JSONResponse
 from kv.coordinator.backends import Backend, LocalBackend
 from kv.coordinator.catalog import Catalog, TableConflict
 from kv.coordinator.errors import ApiError
-from kv.coordinator.models import TableDef
+from kv.coordinator.models import ShardDef, TableDef
+from kv.coordinator.registry import ShardRegistry
+from kv.ring import HashRing
 from kv.settings import Settings
 
 ITEM_PATH = "/tables/{table}/items/{pk:path}"
+ALLOWED_URL_SCHEMES = {"http", "https"}
+STATUS_CREATED = 201
+STATUS_OK = 200
 
 
-def create_coordinator_app(settings: Settings, backend: Backend | None = None) -> FastAPI:
+def create_coordinator_app(
+    settings: Settings,
+    backend: Backend | None = None,
+    registry: ShardRegistry | None = None,
+) -> FastAPI:
     if backend is None:
         if settings.mode == "sharded":
             raise ValueError("sharded mode requires an injected backend")
         backend = LocalBackend()
     catalog = Catalog(settings.catalog_path)
+    if registry is None:
+        registry = ShardRegistry(HashRing(settings.vnodes))
     app = FastAPI()
+    app.state.registry = registry  # Task 8 routes keys through this
 
     @app.exception_handler(ApiError)
     async def api_error(_: Request, exc: ApiError):
@@ -98,8 +112,30 @@ def create_coordinator_app(settings: Settings, backend: Backend | None = None) -
     async def delete_item(table: str, pk: str, sk: str | None = None):
         await backend.delete(table, pk, sort_key_of(table_of(table), pk, sk))
 
+    @app.post("/shards")
+    def register_shard(shard: ShardDef, response: Response) -> ShardDef:
+        if not shard.id:
+            raise bad_request("id must not be empty")
+        try:
+            parsed = urlparse(shard.url)
+        except ValueError:
+            parsed = None
+        if parsed is None or parsed.scheme not in ALLOWED_URL_SCHEMES or not parsed.hostname:
+            raise bad_request("url must be an absolute http(s) URL")
+        outcome = registry.register(shard.id, shard.url)
+        response.status_code = STATUS_CREATED if outcome == "created" else STATUS_OK
+        return shard
+
+    @app.get("/shards")
+    def list_shards() -> list[ShardDef]:
+        return [ShardDef(id=i, url=u) for i, u in registry.list()]
+
+    @app.delete("/shards/{id}", status_code=204)
+    def delete_shard(id: str):  # noqa: A002 - name fixed by the contract path
+        registry.remove(id)
+
     @app.get("/health")
     def health():
-        return {"status": "ok", "mode": settings.mode, "shards": 0}  # Task 7: registry count
+        return {"status": "ok", "mode": settings.mode, "shards": len(registry.list())}
 
     return app

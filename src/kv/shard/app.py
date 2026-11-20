@@ -1,14 +1,34 @@
+import asyncio
+from contextlib import asynccontextmanager
+
+import httpx
 from fastapi import FastAPI, Response
 from fastapi.responses import JSONResponse
 
 from kv.settings import Settings
+from kv.shard.register import registration_loop
 from kv.storage import InMemoryStore
 
 ITEM_PATH = "/internal/items/{table}/{pk:path}"
 
 
 def create_shard_app(settings: Settings) -> FastAPI:
-    app = FastAPI()
+
+    @asynccontextmanager
+    async def lifespan(_: FastAPI):
+        if not (settings.coordinator_url and settings.shard_id and settings.advertise_url):
+            yield
+            return
+        timeout = httpx.Timeout(settings.read_timeout_s, connect=settings.connect_timeout_s)
+        async with httpx.AsyncClient(timeout=timeout) as client:
+            task = asyncio.create_task(registration_loop(client, settings))
+            try:
+                yield
+            finally:
+                task.cancel()
+                await asyncio.gather(task, return_exceptions=True)
+
+    app = FastAPI(lifespan=lifespan)
     store = InMemoryStore()
 
     def not_found() -> JSONResponse:
